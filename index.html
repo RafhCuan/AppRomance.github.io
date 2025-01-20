@@ -24,16 +24,31 @@
 
         .btn-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 10px;
         }
 
         .btn-grid .btn {
-            background-color: #d3d3d3;
-            color: black;
+            background-color: #fda8b5;
+            color: white;
             border: none;
             padding: 15px;
             font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-grid .btn:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-grid .btn:focus {
+            outline: none;
         }
 
         .header {
@@ -65,7 +80,7 @@
         <div class="row">
             <div class="col">
                 <div class="btn-grid">
-                    <button class="btn">tombol</button>
+                    <button class="btn" onclick="window.location.href='motivasi.html'">Motivasi</button>
                     <button class="btn">tombol</button>
                     <button class="btn">tombol</button>
                     <button class="btn">tombol</button>
