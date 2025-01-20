@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive UI Example</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .btn-grid .btn {
+            background-color: #d3d3d3;
+            color: black;
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="content">
+                    <h3 id="greeting"></h3>
+                    <p id="daily-message"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="btn-grid">
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            let greeting = '';
+            let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
+            let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+
+            if (hours < 12) {
+                greeting = `Selamat Pagi ${randomNickname}!!`;
+            } else if (hours < 15) {
+                greeting = `Selamat Siang ${randomNickname}!!`;
+            } else if (hours < 18) {
+                greeting = `Selamat Sore ${randomNickname}!!`;
+            } else {
+                greeting = `Selamat Malam ${randomNickname}!!`;
+            }
+            document.getElementById('greeting').innerText = greeting;
+
+            // Pesan harian
+            const dailyMessages = [
+                "Hari ini aku tersenyum lebih banyak, mungkin karena bayangan wajahmu terus terlintas di pikiranku.",
+                "Hari ini langit cerah, tapi tidak secerah matamu yang selalu bikin aku terpesona.",
+                "Hari ini aku merasa jadi orang paling beruntung, karena ada kamu di hidupku.",
+                "Hari ini aku lihat bunga bermekaran, tapi tetap tidak seindah senyummu yang bikin hati meleleh.",
+                "Hari ini aku lupa makan, soalnya sudah kenyang cuma mikirin kamu.",
+                "Hari ini kopi terasa lebih manis, mungkin karena tadi aku mikirin kamu waktu bikin.",
+                "Hari ini aku bangun pagi-pagi, soalnya mimpi indah tentang kamu masih melekat di otak.",
+                "Hari ini hujan deras, tapi tetap tidak bisa membasuh rinduku padamu.",
+                "Hari ini aku melihat pelangi, tapi kamu tetap pelangi terindah yang pernah ada di hatiku.",
+                "Hari ini aku mencoba diet, tapi langsung gagal karena memikirkan cinta kita yang begitu manis.",
+                "Hari ini aku hampir terlambat, gara-gara terlalu lama ngelamun mikirin kamu.",
+                "Hari ini aku mendengar lagu cinta, tapi tetap tidak ada yang seindah kisah kita.",
+                "Hari ini aku mencatat sesuatu di buku, yaitu berapa kali aku tersenyum karena kamu.",
+                "Hari ini aku merasa capek, tapi lihat foto kamu langsung bikin semangat lagi.",
+                "Hari ini aku mencoba jadi produktif, tapi gagal karena pikiran terus ke kamu.",
+                "Hari ini aku makan cokelat, tapi tetap tidak semanis cara kamu memanggil namaku.",
+                "Hari ini aku lihat bintang, tapi masih kalah terang dibanding matamu.",
+                "Hari ini aku mendengar lelucon lucu, tapi senyumanmu tetap jadi favoritku.",
+                "Hari ini aku menulis puisi, dan semua isinya tentang kamu.",
+                "Hari ini aku belajar bersabar, karena semakin rindu semakin lama waktu berjalan.",
+                "Hari ini aku melihat burung terbang bebas, dan aku berharap bisa terbang ke arahmu.",
+                "Hari ini aku tersenyum sendiri, karena teringat bagaimana kamu mengisi hatiku.",
+                "Hari ini aku mencoba masak, tapi gagal karena terlalu sibuk memikirkan kamu.",
+                "Hari ini aku ingin menyatakan sesuatu: aku jatuh cinta padamu berkali-kali setiap hari.",
+                "Hari ini aku menatap cermin, dan aku bersyukur karena kamu ada untuk melengkapi hidupku.",
+                "Hari ini aku mendengar suara angin, dan rasanya seperti kamu sedang membisikkan namaku.",
+                "Hari ini aku mencari definisi kebahagiaan, dan ternyata itu adalah kamu.",
+                "Hari ini aku ingin jadi superhero, supaya bisa melindungi senyuman indahmu.",
+                "Hari ini aku menghitung bintang di langit, tapi tetap tidak sebanyak alasan aku mencintaimu.",
+                "Hari ini aku belajar bahwa waktu paling indah adalah waktu bersamamu.",
+                "Hari ini aku memesan pizza, tapi tetap tidak ada yang lebih bikin kenyang selain cintamu.",
+                "Hari ini aku melihat bunga mawar, tapi aromanya tetap kalah dengan kehadiranmu.",
+                "Hari ini aku membaca novel cinta, tapi cerita kita jauh lebih romantis.",
+                "Hari ini aku mencoba melupakanmu sebentar, tapi gagal total karena kamu terlalu istimewa.",
+                "Hari ini aku berjalan di taman, dan setiap sudut mengingatkan aku pada kamu.",
+                "Hari ini aku tertawa lebih keras, karena kamu adalah alasan di balik kebahagiaan itu.",
+                "Hari ini aku berjanji pada diri sendiri, untuk selalu menjaga senyumanmu.",
+                "Hari ini aku beli es krim, tapi tetap tidak bisa mendinginkan rinduku padamu.",
+                "Hari ini aku ingin menciptakan lagu cinta, dan inspirasinya sudah pasti kamu.",
+                "Hari ini aku menghitung awan, dan menyadari semuanya tidak ada yang seputih hatimu.",
+                "Hari ini aku menyeduh teh hangat, tapi masih kalah hangat dengan pelukanmu.",
+                "Hari ini aku melihat pelangi ganda, dan itu mengingatkanku betapa berwarnanya hidupku bersamamu.",
+                "Hari ini aku berjalan di bawah hujan, berharap setiap tetes membawaku lebih dekat padamu.",
+                "Hari ini aku menemukan arti cinta sejati, dan itu adalah kamu.",
+                "Hari ini aku sengaja telat tidur, karena tidak ingin berhenti memikirkan kamu.",
+                "Hari ini aku ingin memesan tiket pesawat, supaya bisa terbang ke hatimu.",
+                "Hari ini aku lihat sunset, tapi tetap tidak bisa mengalahkan indahnya kehadiranmu.",
+                "Hari ini aku melukis sesuatu, dan tanpa sadar semua garis mengarah ke wajahmu.",
+                "Hari ini aku menulis daftar keinginan, dan di urutan pertama adalah membuatmu bahagia.",
+                "Hari ini aku bersyukur, karena Tuhan menciptakan kamu untuk melengkapi hidupku."
+            ];
+            // Menampilkan pesan berdasarkan hari dalam seminggu
+            const dayOfWeek = now.getDay();
+            document.getElementById('daily-message').innerText = dailyMessages[dayOfWeek];
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+
+
+</body>
+
+</html>
