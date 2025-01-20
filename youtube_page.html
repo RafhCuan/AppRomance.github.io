@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lagu Hari Ini</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-back {
+            background-color: #FF6B81;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="content">
+                    <h3>Lagu Pilihan Hari Ini</h3>
+                    <p>Selamat menikmati lagu hari ini!</p>
+                    <iframe id="youtube-video" src="" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container">
+            <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
+        </div>
+    </div>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function getVideoByDate() {
+            const now = new Date();
+            const day = now.getDate();
+            const videoUrls = [
+                "https://www.youtube.com/embed/1HxVjrbydk0",  // 1
+                "https://www.youtube.com/embed/86DedkhQms4",  // 2
+                "https://www.youtube.com/embed/n55XOpZ3YY0",  // 3
+                "https://www.youtube.com/embed/6iGj0NohNi4",  // 4
+                "https://www.youtube.com/embed/HxR32xRuLM0",  // 5
+                "https://www.youtube.com/embed/FKq6Q6BV98E",  // 6
+                "https://www.youtube.com/embed/7GHnXfwxyns",  // 7
+                "https://www.youtube.com/embed/MCyH0k9rbdE",  // 8
+                "https://www.youtube.com/embed/pxi2UsEFmyw",  // 9
+                "https://www.youtube.com/embed/B0QfJ_hVbHs", // 10
+                "https://www.youtube.com/embed/LWI1SU94GXA", // 11
+                "https://www.youtube.com/embed/KyY33PjhNGs", // 12
+                "https://www.youtube.com/embed/orBZzGmlrqI", // 13
+                "https://www.youtube.com/embed/9rzu6tArYnY", // 14
+                "https://www.youtube.com/embed/9AcCMa2vRUw", // 15
+                "https://www.youtube.com/embed/k55Ou1FIRE", // 16
+                "https://www.youtube.com/embed/OTXLdLq7Hqg", // 17
+                "https://www.youtube.com/embed/6rzbRcPIRkU", // 18
+                "https://www.youtube.com/embed/li49xMSc824", // 19
+                "https://www.youtube.com/embed/2PP_hPqVt_c", // 20
+                "https://www.youtube.com/embed/PiLicvna444", // 21
+                "https://www.youtube.com/embed/VDHfYxSGnXs", // 22
+                "https://www.youtube.com/embed/TnnEEuEQi80", // 23
+                "https://www.youtube.com/embed/8Aaqk8F92XA", // 24
+                "https://www.youtube.com/embed/HylVEQ5X4UQ", // 25
+                "https://www.youtube.com/embed/XzNUlaklmKI", // 26
+                "https://www.youtube.com/embed/6Z9RyzWqvvk", // 27
+                "https://www.youtube.com/embed/w2NZQveZsZ8", // 28
+                "https://www.youtube.com/embed/ccCaIlidESE", // 29
+                "https://www.youtube.com/embed/VIxgMSi0wWQ"  // 30
+            ];
+
+            // Mengambil video berdasarkan tanggal
+            let videoUrl = videoUrls[(day - 1) % videoUrls.length];
+            document.getElementById('youtube-video').src = videoUrl;
+        }
+
+        // Panggil fungsi updateDateTime dan getVideoByDate saat halaman dimuat
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+        window.onload = getVideoByDate;
+    </script>
+</body>
+
+</html>
