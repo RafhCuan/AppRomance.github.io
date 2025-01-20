@@ -51,6 +51,30 @@
             outline: none;
         }
 
+        .btn-back {
+            background-color: #FF6B81;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -80,14 +104,7 @@
         <div class="row">
             <div class="col">
                 <div class="btn-grid">
-                    <button class="btn" onclick="window.location.href='index.html'">Kembali</button>
-                    <button class="btn">tombol</button>
-                    <button class="btn">tombol</button>
-                    <button class="btn">tombol</button>
-                    <button class="btn">tombol</button>
-                    <button class="btn">tombol</button>
-                    <button class="btn">tombol</button>
-                    <button class="btn">tombol</button>
+                    <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
                 </div>
             </div>
         </div>
