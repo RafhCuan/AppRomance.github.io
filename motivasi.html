@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivasi</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .btn-grid .btn {
+            background-color: #fda8b5;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-grid .btn:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-grid .btn:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="content">
+                    <h3 id="greeting"></h3>
+                    <p id="motivasi-message">"Keberhasilan adalah hasil dari kerja keras dan ketekunan."</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="btn-grid">
+                    <button class="btn" onclick="window.location.href='index.html'">Kembali</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                    <button class="btn">tombol</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Pesan motivasi untuk setiap waktu
+        const pagiMotivasi = [
+            "Hari ini adalah kesempatan baru untuk mengejar impianmu. Mulailah dengan langkah kecil, tapi pastikan itu adalah langkah yang tepat!",
+            "Setiap pagi adalah kesempatan untuk menjadi versi terbaik dari dirimu. Bangun dan buktikan itu!",
+            "Jangan takut gagal, karena setiap kegagalan adalah pelajaran untuk sukses yang lebih besar.",
+            "Pagi ini, kamu lebih kuat daripada kemarin. Jangan ragu untuk melangkah maju!",
+            "Hari baru, peluang baru! Jadikan hari ini lebih baik dari kemarin.",
+            "Bangun dan buat dunia terkesan dengan kehadiranmu. Hari ini milikmu!",
+            "Langkah pertama adalah yang paling sulit, tapi setelah itu semuanya akan lebih mudah. Mulailah hari ini!",
+            "Hidup ini penuh tantangan, tapi kamu lebih besar dari setiap tantangan yang ada.",
+            "Hari ini, biarkan semangatmu lebih besar daripada rasa malasmu.",
+            "Setiap hari adalah bab baru dalam hidupmu. Buatlah cerita yang luar biasa hari ini!",
+            "Jangan menunggu kesempurnaan, mulailah dengan apa yang kamu punya sekarang!",
+            "Pagi ini, kamu punya kekuatan untuk mengubah hidupmu. Gunakan itu dengan bijak!",
+            "Mimpi tidak akan menjadi kenyataan tanpa usaha. Mulailah dengan langkah pertama hari ini.",
+            "Jangan biarkan kemarin menghalangi potensimu hari ini. Setiap hari adalah kesempatan baru!",
+            "Pagi adalah waktu yang tepat untuk merencanakan kemenangan hari ini. Rencanakan dan wujudkan!",
+            "Keberhasilan dimulai dari kebiasaan baik yang dimulai pagi hari.",
+            "Pagi ini, tentukan tujuanmu dan beri 100% usaha untuk mencapainya.",
+            "Jangan khawatir tentang apa yang tidak bisa kamu kontrol. Fokuslah pada apa yang ada di hadapanmu hari ini.",
+            "Hari ini adalah hadiah yang harus kamu syukuri dan manfaatkan sebaik mungkin.",
+            "Kesuksesan bukanlah kebetulan, melainkan hasil dari usaha yang konsisten. Bangun dan berusaha lebih keras!",
+            "Kamu bisa mengubah dunia mulai dari langkah pertama yang kamu ambil hari ini.",
+            "Hari baru adalah kesempatan untuk menunjukkan pada dunia siapa kamu sebenarnya.",
+            "Pagi adalah saat yang tepat untuk menetapkan niat. Tentukan apa yang ingin kamu capai hari ini dan raih itu!",
+            "Jangan biarkan rasa takut menghentikanmu. Hari ini, kamu punya kekuatan untuk mengatasi segala halangan.",
+            "Mulailah hari ini dengan pikiran positif, karena itu akan membawa hasil yang positif pula.",
+            "Bangun dengan keyakinan bahwa hari ini adalah hari terbaikmu!",
+            "Pagi adalah waktu untuk memulai hari dengan penuh semangat dan tekad. Jangan sia-siakan kesempatan ini.",
+            "Setiap pagi adalah peluang untuk memperbaiki diri dan tumbuh lebih baik dari kemarin.",
+            "Jangan tunggu motivasi datang, bangun dan ciptakan motivasi itu sendiri!",
+            "Keberhasilan dimulai dari keputusanmu untuk tidak menyerah, jadi tetap semangat dan terus maju!"
+        ];
+
+        const siangMotivasi = [
+            "Siang ini adalah waktu yang tepat untuk merencanakan langkah selanjutnya. Jangan berhenti, karena kamu sedang menuju tujuanmu.",
+            "Setiap usaha kecil yang kamu lakukan di siang hari membawa kamu lebih dekat ke kesuksesan yang lebih besar.",
+            "Jangan biarkan kelelahan siang hari menghentikanmu. Kamu sudah lebih kuat dari yang kamu kira.",
+            "Siang ini adalah peluang untuk memperbaiki diri. Ambil nafas, re-energize, dan lanjutkan perjalananmu!",
+            "Kamu mungkin merasa lelah, tapi ingat bahwa setiap langkah kecil adalah bagian dari perjalanan besar.",
+            "Jangan ragu untuk mengambil waktu sejenak, tapi jangan berhenti. Lanjutkan kerja kerasmu!",
+            "Siang hari adalah pengingat bahwa hasil besar butuh waktu dan usaha. Teruslah berjuang!",
+            "Siang ini adalah waktu untuk meyakinkan dirimu sendiri bahwa kamu bisa menyelesaikan apapun yang sudah kamu mulai.",
+            "Ketika kamu merasa lelah, ingatlah mengapa kamu memulai. Itu yang akan memberi semangat lagi.",
+            "Siang ini, berikan yang terbaik. Karena waktu yang kamu miliki sekarang adalah peluang yang tidak boleh disia-siakan.",
+            "Teruskan apa yang sudah kamu mulai. Siang ini adalah langkah selanjutnya menuju impianmu!",
+            "Jangan khawatir tentang apa yang belum tercapai. Fokus pada apa yang bisa kamu capai mulai hari ini.",
+            "Setiap detik yang kamu habiskan untuk berusaha adalah investasi untuk masa depanmu.",
+            "Siang ini adalah waktu untuk tetap fokus. Langkah kecil di siang hari bisa menghasilkan perubahan besar!",
+            "Tidak ada yang bisa menghentikanmu, kecuali dirimu sendiri. Lanjutkan dan taklukkan siang ini!",
+            "Siang adalah waktu untuk melanjutkan perjuangan, apapun yang sudah kamu capai hari ini, kamu bisa lebih baik lagi!",
+            "Jangan biarkan rasa malas menguasai, kamu sudah melangkah terlalu jauh untuk berhenti sekarang.",
+            "Siang ini adalah waktu untuk beristirahat sejenak dan kembali dengan energi baru untuk sisa hari ini.",
+            "Hari ini adalah hari yang baik untuk memperbarui niat dan tekadmu. Lanjutkan!",
+            "Kesuksesan bukan tentang kecepatan, tapi ketekunan. Teruskan perjalananmu tanpa henti!",
+            "Siang ini adalah pengingat bahwa keberhasilan dimulai dari keputusan yang kamu buat setiap hari.",
+            "Jika kamu merasa lelah, berhenti sejenak, tapi jangan berhenti berusaha. Sisa hari ini masih ada peluang!",
+            "Siang ini adalah kesempatan baru untuk memberi yang terbaik. Jangan biarkan kesempatan berlalu begitu saja.",
+            "Kamu sudah sejauh ini, jangan biarkan satu momen melemahkan semangatmu.",
+            "Siang ini adalah pengingat bahwa kamu adalah pembuat nasibmu. Terus bergerak maju!",
+            "Siang hari adalah waktu untuk melihat ke depan, bukan ke belakang. Fokus pada apa yang ada di depan.",
+            "Semangatmu di siang hari menentukan bagaimana sisa harimu akan berjalan. Bangkit dan beri yang terbaik!",
+            "Siang ini, ingatlah bahwa setiap langkah yang kamu ambil membawa kamu lebih dekat ke tujuan.",
+            "Keberhasilanmu dimulai dengan tindakan. Apa yang kamu lakukan di siang hari menentukan hasil akhir.",
+            "Siang hari adalah kesempatan untuk menguji kekuatan mentalmu. Terus berjalan meski jalan terasa berat."
+        ];
+
+        const soreMotivasi = [
+            "Sore ini adalah waktu untuk melihat kembali sejauh mana perjalananmu. Bangga dengan apa yang sudah kamu capai!",
+            "Jangan biarkan rasa lelah sore ini mengalahkan semangatmu. Keberhasilan sedang menantimu di ujung jalan.",
+            "Sore hari bukan akhir, melainkan waktu untuk merefleksikan dan menyiapkan langkah besar berikutnya.",
+            "Tidak ada yang lebih baik dari merayakan pencapaian kecil di sore hari. Semangatmu patut dihargai!",
+            "Hari belum berakhir. Kamu masih punya waktu untuk membuatnya luar biasa.",
+            "Sore hari adalah waktu yang tepat untuk mengevaluasi dan merencanakan langkah-langkah sukses di masa depan.",
+            "Jangan lihat sore hari sebagai waktu untuk menyerah, lihatlah sebagai waktu untuk merencanakan kemenangan.",
+            "Keberhasilan besar dimulai dengan keputusan untuk terus berusaha hingga sore hari.",
+            "Saat sore tiba, ingatlah bahwa setiap usaha yang kamu lakukan akan mendekatkanmu pada tujuan.",
+            "Tidak ada kata terlambat. Sore ini adalah kesempatan untuk memberikan yang terbaik di sisa hari.",
+            "Saat hari mulai redup, semangatmu justru harus semakin menyala. Sore ini, teruskan perjuanganmu!",
+            "Sore ini adalah pengingat bahwa setiap langkah yang kamu ambil membawa kamu lebih dekat ke impianmu.",
+            "Jangan biarkan kelelahan sore hari menghentikanmu. Kamu punya kekuatan untuk menyelesaikan lebih banyak lagi.",
+            "Sore adalah kesempatan untuk memikirkan apa yang telah kamu capai, dan apa yang masih bisa kamu capai.",
+            "Setiap detik sore ini adalah kesempatan untuk membuat perubahan besar dalam hidupmu.",
+            "Jangan berhenti hanya karena sore hari. Teruslah berjalan, dan lihatlah apa yang bisa kamu capai di malam hari.",
+            "Sore ini, ambil waktu sejenak untuk bersyukur atas pencapaian hari ini. Besok adalah kesempatan baru.",
+            "Keberhasilan datang pada mereka yang tidak menyerah di tengah perjalanan. Terus semangat di sore ini!",
+            "Sore adalah waktu untuk beristirahat sejenak dan mempersiapkan diri untuk tantangan besok.",
+            "Jangan khawatir tentang apa yang belum kamu capai hari ini. Masih ada waktu untuk membuatnya lebih baik.",
+            "Sore ini adalah pengingat bahwa tidak ada perjuangan yang sia-sia. Setiap usaha membawa hasil.",
+            "Kekuatan sejati datang saat kamu terus berjuang, bahkan ketika sore mulai terasa lelah.",
+            "Jangan biarkan sore menghalangi semangatmu. Teruslah bekerja keras dan berikan yang terbaik!",
+            "Sore hari adalah waktu yang tepat untuk merencanakan kemenangan besok. Jangan biarkan waktu berlalu sia-sia.",
+            "Meskipun sore tiba, perjuanganmu belum selesai. Masih banyak kesempatan untuk meraih tujuanmu.",
+            "Sore ini adalah waktu untuk meresapi setiap pencapaian kecil. Mereka adalah batu loncatan menuju tujuan besar.",
+            "Terkadang, sore adalah waktu untuk merenung dan menemukan kekuatan baru untuk memulai hari esok.",
+            "Sore ini, jangan biarkan rasa lelah menghalangi motivasimu. Setiap hari adalah kesempatan untuk tumbuh.",
+            "Semangat sore ini menentukan bagaimana kamu akan menyelesaikan hari. Jangan biarkan kesempatan terlewat!",
+            "Sore adalah waktu untuk berpikir besar dan bertindak lebih besar. Jangan biarkan mimpi kamu berhenti sampai hari ini!"
+        ];
+
+        const malamMotivasi = [
+            "Beristirahatlah dengan tenang, besok adalah hari baru!",
+            "Malam ini adalah waktu untuk meresapi keberhasilan hari ini.",
+            "Jangan biarkan kegagalan menghalangimu. Besok akan lebih baik.",
+            "Rencanakan suksesmu dari sekarang, besok adalah kesempatan baru.",
+            "Tidur dengan damai, impianmu sedang menunggu untuk menjadi kenyataan.",
+            "Malam ini adalah waktu untuk beristirahat dan mempersiapkan diri untuk besok.",
+            "Jangan biarkan hari ini berakhir tanpa merencanakan sesuatu untuk masa depanmu.",
+            "Malam hari adalah waktu yang tepat untuk menyusun rencana besar.",
+            "Saatnya merefleksikan diri dan menemukan cara untuk menjadi lebih baik lagi.",
+            "Tidur yang nyenyak akan memberikan energi untuk memulai hari baru dengan semangat.",
+            "Nikmati malam ini dengan penuh kedamaian, karena besok adalah kesempatan baru.",
+            "Ketenangan malam memberi kita ruang untuk berpikir dan merencanakan masa depan.",
+            "Setiap malam adalah kesempatan untuk memulai kembali dengan energi yang lebih baik.",
+            "Tidur dengan pikiran positif, besok akan membawa peluang baru.",
+            "Malam ini adalah waktu untuk merencanakan impian besar yang akan terwujud.",
+            "Beristirahatlah dengan penuh rasa syukur atas apa yang telah dicapai hari ini.",
+            "Malam hari adalah waktu terbaik untuk menyusun langkah-langkah menuju tujuan besar.",
+            "Tidur malam yang baik akan memberi kamu semangat baru untuk meraih lebih banyak lagi.",
+            "Bersyukurlah atas hari ini, besok adalah kesempatan untuk menjadi lebih baik.",
+            "Malam ini, beri dirimu kesempatan untuk beristirahat dan merencanakan masa depan.",
+            "Berpikir besar dan tidur dengan tenang, karena besok adalah awal yang baru.",
+            "Malam hari memberi kita waktu untuk menyusun rencana dan mengejar impian.",
+            "Tidur dengan pikiran positif dan siap untuk menghadapi tantangan besok.",
+            "Malam adalah waktu yang tepat untuk merencanakan langkah-langkah besar dalam hidupmu.",
+            "Jangan ragu untuk memimpikan hal-hal besar, karena malam memberi kita ketenangan untuk merencanakannya.",
+            "Malam ini adalah saat yang tepat untuk merenung dan menetapkan tujuan besar dalam hidup.",
+            "Tidur malam yang baik adalah kunci untuk memulai hari baru dengan penuh energi.",
+            "Bersiaplah untuk menyambut hari baru dengan penuh semangat dan antusiasme.",
+            "Bersyukurlah atas segala hal yang telah kamu capai dan tidurlah dengan penuh damai.",
+            "Malam ini adalah waktu untuk merencanakan masa depan cerahmu.",
+            "Tidurlah dengan keyakinan bahwa esok akan lebih baik."
+        ];
+
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            const dayOfYear = now.getDate(); // Menggunakan tanggal untuk memilih pesan
+            let greeting = '';
+            let motivasiMessage = '';
+
+            let motivasiArray = [];
+            if (hours < 12) {
+                greeting = 'Motivasi Pagi ini';
+                motivasiArray = pagiMotivasi;
+            } else if (hours < 15) {
+                greeting = 'Motivasi Siang ini';
+                motivasiArray = siangMotivasi;
+            } else if (hours < 18) {
+                greeting = 'Motivasi Sore ini';
+                motivasiArray = soreMotivasi;
+            } else {
+                greeting = 'Motivasi Malam ini';
+                motivasiArray = malamMotivasi;
+            }
+
+            // Pilih pesan berdasarkan hari (dayOfYear)
+            motivasiMessage = motivasiArray[dayOfYear % motivasiArray.length];
+            document.getElementById('greeting').innerText = greeting;
+            document.getElementById('motivasi-message').innerText = motivasiMessage;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+
+</html>
