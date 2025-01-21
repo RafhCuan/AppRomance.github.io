@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>harapan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background-color: #ff8497;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="content">
+                    <h3 id="greeting"></h3>
+                    <p id="harapan-message"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="btn-grid">
+                    <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Pesan harapan untuk setiap waktu
+        const pagiharapan = [
+            "Selamat pagi, cinta. Semoga senyummu hari ini lebih indah dari pemandangan langit di pagi hari yang penuh berkah.",
+            "Semoga Allah mempermudah setiap langkahmu hari ini, dan aku selalu bisa menjadi bagian dari kebahagiaanmu.",
+            "Cintaku, semoga hari ini kamu merasakan betapa istimewanya dirimu, karena bagiku kamu adalah anugerah terindah yang Allah kirimkan.",
+            "Pagi ini, semoga setiap langkahmu membawa berkah dan cahaya, seperti cahaya yang bersinar di hatiku hanya untukmu.",
+            "Semoga pagi ini menyapa kamu dengan senyuman indah, dan hari ini penuh dengan kebahagiaan, seperti yang kamu berikan padaku.",
+            "Hari ini, semoga kamu bisa mencapai semua impianmu, dan semoga aku selalu ada di sampingmu sebagai pendukung setia.",
+            "Semoga hari ini penuh dengan cinta dan tawa, meskipun kamu tetap lucu walau tanpa harus berusaha!",
+            "Cinta, semoga hari ini kamu merasa seperti ratu, karena dalam hatiku kamu adalah satu-satunya yang bertahta.",
+            "Pagi ini, semoga Allah memberkati setiap langkahmu, dan semoga aku bisa menjadi penyebab kebahagiaanmu.",
+            "Hari ini, semoga kebahagiaanmu lebih berlimpah dari jumlah bintang di langit. Aku akan selalu bersyukur memiliki kamu.",
+            "Semoga Allah memberikan ketenangan dalam hatimu dan kekuatan dalam setiap langkahmu, dan semoga aku bisa menjadi pelindungmu.",
+            "Cinta, semoga harimu penuh dengan cinta dan keceriaan. Dan semoga senyummu tetap manis meskipun baru bangun tidur!",
+            "Semoga Allah memberi kemudahan dalam segala urusanmu hari ini, dan semoga kamu tahu betapa aku bangga memilikimu.",
+            "Hari ini, semoga segala hal baik datang padamu, dan semoga aku menjadi bagian dari kebahagiaan itu.",
+            "Semoga Allah selalu melindungimu, seperti aku yang selalu ingin melindungimu dari segala kesulitan hidup.",
+            "Pagi ini, semoga kamu merasa bahagia dan penuh dengan cinta, karena aku tidak bisa berhenti mencintaimu.",
+            "Semoga Allah memberkati segala usaha dan doamu, dan semoga kamu tahu betapa aku bangga memilikimu.",
+            "Cinta, semoga Allah memberikanmu kekuatan, dan semoga aku selalu bisa menjadi sumber kebahagiaanmu.",
+            "Hari ini adalah kesempatan baru, semoga Allah memberi petunjuk dalam setiap langkahmu, dan aku selalu ada di sisimu.",
+            "Semoga kamu selalu menjadi bintang yang terang dalam hidupku, dan meskipun aku tidak tahu cara memasak, aku janji akan selalu menyediakan cinta untukmu!",
+            "Cinta, semoga hari ini penuh dengan tawa dan kebahagiaan, seperti yang kamu berikan padaku setiap saat.",
+            "Semoga hari ini Allah memberikan keberkahan yang melimpah dan semoga aku bisa menjadi alasan kamu tersenyum.",
+            "Semoga setiap langkahmu hari ini membawa kebaikan, dan semoga hatimu selalu dipenuhi rasa syukur.",
+            "Pagi ini, semoga kamu merasa dihargai, seperti aku yang selalu merasa beruntung bisa mengenalmu.",
+            "Cinta, semoga hari ini penuh dengan kedamaian, dan semoga aku bisa menjadi sahabat terbaikmu dalam segala keadaan.",
+            "Semoga Allah memberkati hidupmu dengan kebahagiaan, dan semoga aku bisa menjadi bagian dari kebahagiaan itu.",
+            "Semoga kamu selalu diberi kebahagiaan yang tak terhingga, meskipun terkadang aku bikin kamu tertawa karena kebodohanku!",
+            "Hari ini, semoga kamu bisa merasakan betapa berartinya dirimu, bukan hanya untuk aku, tapi untuk dunia ini.",
+            "Semoga kamu selalu merasa seperti yang aku rasakan: bahagia dan bersyukur memiliki kamu dalam hidupku.",
+            "Pagi ini, semoga Allah memberkati segala urusanmu, dan semoga kamu tetap seceria itu meski aku sering terlambat bangun!"
+        ];
+
+        const siangharapan = [
+            "Selamat siang, cinta. Semoga hari ini lebih indah dari yang kamu bayangkan, dan semoga aku bisa menjadi bagian dari kebahagiaanmu.",
+            "Semoga Allah memberikan kelancaran dalam segala urusanmu hari ini, dan aku berharap kamu merasakan kedamaian setiap saat.",
+            "Siang ini, semoga hatimu selalu penuh dengan kebahagiaan, dan semoga kamu tahu betapa aku mencintaimu lebih dari apapun.",
+            "Cinta, semoga segala hal baik datang padamu hari ini. Dan meskipun siang ini panas, semoga hatimu tetap sejuk karena cinta kita.",
+            "Semoga Allah memberkati segala usaha dan kerja kerasmu siang ini, dan semoga kamu merasa diberkahi di setiap langkahmu.",
+            "Siang ini, semoga senyummu lebih terang dari sinar matahari, dan semoga kamu merasa luar biasa, karena kamu memang luar biasa.",
+            "Cinta, semoga hari ini kamu mendapatkan segala kebaikan, dan semoga aku bisa membuat hari-harimu lebih indah.",
+            "Siang ini, semoga Allah memberikanmu keberkahan di setiap detikmu, dan semoga aku bisa selalu membuatmu tersenyum.",
+            "Semoga setiap usaha yang kamu lakukan siang ini membawa hasil yang lebih indah dari yang kamu harapkan, dan semoga aku bisa menjadi penyemangatmu.",
+            "Cinta, semoga siang ini penuh dengan kedamaian dan kebahagiaan, dan semoga kita segera bisa berbagi cerita di sore hari.",
+            "Semoga Allah selalu melindungimu dan memberikan ketenangan di setiap langkahmu, meskipun hari ini mungkin terasa panjang.",
+            "Siang ini, semoga kamu merasa secerah mentari dan semoga segala hal baik datang menghampirimu.",
+            "Cinta, semoga kamu merasa penuh cinta dan semangat siang ini, dan meskipun banyak pekerjaan, semoga kamu tetap merasa bahagia.",
+            "Semoga siang ini kamu tetap merasa kuat dan penuh semangat, karena aku selalu ada untuk mendukungmu.",
+            "Semoga Allah memberkati setiap langkahmu siang ini, dan semoga aku bisa terus menjadi orang yang membuatmu bahagia.",
+            "Siang ini, semoga segala kesulitan yang kamu hadapi terasa lebih ringan, dan semoga kamu selalu merasa diberkahi oleh-Nya.",
+            "Cinta, semoga siang ini kamu bisa menemukan kebahagiaan yang tak terduga, meskipun aku tidak bisa ada di sana setiap saat untuk membuatmu tertawa.",
+            "Semoga kamu selalu merasa dihargai dan dicintai, seperti aku yang selalu merasa diberkahi memiliki kamu.",
+            "Siang ini, semoga hari-harimu dipenuhi dengan kebaikan, dan semoga aku bisa terus menjadi orang yang memberi kebahagiaan untukmu.",
+            "Semoga Allah memberikanmu kemudahan dan kelancaran dalam segala urusanmu siang ini, dan semoga hatimu selalu penuh dengan cinta.",
+            "Semoga Allah memberkati setiap detikmu hari ini, dan semoga kamu menemukan kebahagiaan dalam setiap langkahmu.",
+            "Siang ini, semoga kamu merasa dihargai, seperti aku yang selalu merasa bersyukur memiliki kamu di hidupku.",
+            "Cinta, semoga segala urusanmu hari ini berjalan lancar, dan semoga kamu tetap ceria meskipun cuaca terasa panas.",
+            "Semoga kamu selalu merasa penuh semangat dan kebahagiaan siang ini, seperti aku yang selalu merasa bahagia saat bersamamu.",
+            "Siang ini, semoga kamu merasakan kedamaian yang tak ternilai, dan semoga Allah selalu memberikan petunjuk dalam setiap langkahmu.",
+            "Cinta, semoga siang ini lebih ringan dan penuh tawa, meskipun dunia terkadang membuat kita merasa lelah.",
+            "Semoga Allah memberikan kebahagiaan dan kemudahan dalam segala urusanmu, dan semoga aku bisa selalu ada untukmu.",
+            "Siang ini, semoga kamu bisa meraih apa yang kamu inginkan, dan semoga kita bisa berbagi momen indah bersama nanti.",
+            "Cinta, semoga Allah selalu memberkati kamu, dan semoga siang ini penuh dengan kebahagiaan yang lebih dari cukup untukmu.",
+            "Siang ini, semoga hari-harimu penuh dengan keberkahan, dan semoga aku bisa selalu menjadi orang yang menambah kebahagiaanmu."
+        ];
+
+        const soreharapan = [
+            "Selamat sore, cinta. Semoga sore ini membawa ketenangan dan kebahagiaan, dan semoga aku bisa terus menjadi bagian dari kebahagiaanmu.",
+            "Semoga sore ini penuh dengan berkah dan kedamaian, seperti saat aku berada di dekatmu.",
+            "Cinta, semoga sore ini membawa kehangatan yang bisa menghibur hati kita, dan semoga senyumanmu membuat dunia terasa lebih indah.",
+            "Semoga Allah memberikan ketenangan di hati kita sore ini, dan semoga kita bisa menghabiskan waktu yang indah bersama.",
+            "Sore ini, semoga segala beban yang kamu rasakan terasa lebih ringan, dan semoga kebahagiaan selalu menyertaimu.",
+            "Cinta, semoga sore ini memberi waktu bagi kita untuk beristirahat dan meresapi kebahagiaan yang telah kita ciptakan.",
+            "Semoga sore ini kamu merasa lebih tenang dan lebih bahagia, dan semoga aku bisa selalu membuatmu tersenyum.",
+            "Sore ini, semoga Allah memberikanmu kedamaian yang tak terhingga, dan semoga hatimu selalu dipenuhi rasa syukur.",
+            "Semoga sore ini membawa kedamaian dalam setiap langkahmu, dan semoga aku bisa membuatmu merasa lebih baik.",
+            "Cinta, semoga sore ini penuh dengan kenangan indah, dan semoga aku bisa selalu ada untuk menemanimu.",
+            "Semoga sore ini menjadi waktu yang sempurna untuk menyegarkan pikiran dan hati, dan semoga aku bisa menjadi bagian dari kebahagiaanmu.",
+            "Cinta, semoga sore ini kamu merasa lebih cantik dan lebih tenang, seperti yang selalu aku rasakan saat bersamamu.",
+            "Semoga sore ini membawa ketenangan, dan semoga kita bisa berbagi waktu yang indah meski hanya sebentar.",
+            "Sore ini, semoga segala urusanmu berjalan lancar dan menyenangkan, dan semoga kamu tetap merasa bahagia.",
+            "Cinta, semoga sore ini membawa cahaya yang menenangkan, dan semoga aku selalu bisa membuat harimu lebih indah.",
+            "Semoga sore ini penuh dengan kebahagiaan yang datang dari dalam hati, dan semoga Allah selalu melindungimu.",
+            "Sore ini, semoga kamu merasakan kedamaian dan ketenangan, karena kamu adalah kebahagiaan dalam hidupku.",
+            "Semoga sore ini kamu merasa lebih dekat dengan segala impianmu, dan semoga aku bisa selalu mendukungmu.",
+            "Cinta, semoga sore ini lebih indah dari yang kamu bayangkan, dan semoga aku bisa selalu membuatmu merasa spesial.",
+            "Sore ini, semoga segala kerisauanmu hilang, dan semoga hatimu dipenuhi kedamaian dan kebahagiaan.",
+            "Semoga sore ini kamu bisa menikmati waktu yang tenang dan penuh kedamaian, seperti saat aku menikmati setiap detik bersamamu.",
+            "Cinta, semoga sore ini kita bisa berbagi momen indah dan kebahagiaan yang kita ciptakan bersama.",
+            "Semoga sore ini penuh dengan berkat dan ketenangan, dan semoga aku bisa menjadi alasan kamu tersenyum.",
+            "Sore ini, semoga Allah memberikanmu kebahagiaan yang tak terhingga, dan semoga segala urusanmu berjalan lancar.",
+            "Semoga sore ini kamu merasa lebih tenang dan lebih kuat, seperti aku yang merasa lebih baik setiap kali bersamamu.",
+            "Cinta, semoga sore ini menjadi waktu yang penuh dengan keceriaan, meskipun terkadang dunia membuat kita lelah.",
+            "Semoga sore ini membawa kebaikan yang tak terduga, dan semoga Allah selalu memberkati langkah-langkahmu.",
+            "Sore ini, semoga kita bisa meresapi kebahagiaan yang telah kita capai, dan semoga selalu ada tawa di antara kita.",
+            "Semoga sore ini kamu merasa lebih dicintai, seperti aku yang selalu merasa diberkahi memilikimu dalam hidupku.",
+            "Cinta, semoga sore ini penuh dengan kebahagiaan dan kedamaian, dan semoga aku selalu bisa membuatmu merasa istimewa."
+        ];
+
+        const malamharapan = [
+            "Selamat malam, cinta. Semoga malam ini membawa kedamaian dan mimpi indah, seperti setiap detik bersamamu.",
+            "Semoga Allah menjaga tidurmu malam ini, memberikanmu mimpi indah, dan membangunkanmu dengan penuh semangat untuk hari esok.",
+            "Cinta, semoga malam ini kamu tidur nyenyak dengan hati yang tenang, dan semoga aku selalu ada dalam doamu.",
+            "Selamat malam, semoga segala penatmu hari ini hilang dan kamu bisa tidur dengan damai, seperti aku yang merasa tenang karena cintamu.",
+            "Semoga malam ini membawa ketenangan dalam hatimu, dan semoga Allah selalu menjaga setiap langkahmu dalam hidup.",
+            "Cinta, semoga malam ini kamu diberikan mimpi indah yang penuh dengan kebahagiaan, seperti yang kamu berikan padaku setiap hari.",
+            "Semoga tidurmu malam ini penuh dengan kedamaian, dan semoga esok hari membawa kebahagiaan yang lebih besar untukmu.",
+            "Cinta, semoga malam ini Allah memberikan perlindungan dan menghapus segala kecemasan yang ada di pikiranmu.",
+            "Selamat malam, semoga kamu tidur dengan nyenyak, dan semoga Allah memberikanmu keberkahan dalam setiap detik tidurmu.",
+            "Semoga malam ini menjadi waktu yang penuh ketenangan untukmu, dan semoga aku selalu menjadi alasan kamu tersenyum.",
+            "Cinta, semoga malam ini kamu merasa damai, dan semoga semua doa yang kamu panjatkan dikabulkan oleh Allah.",
+            "Selamat malam, semoga malam ini kamu menemukan ketenangan dalam tidur, dan semoga aku selalu ada dalam hatimu.",
+            "Semoga Allah menjaga tidurmu malam ini, dan semoga besok kita bisa kembali menikmati hari bersama penuh kebahagiaan.",
+            "Cinta, semoga malam ini tidurmu lebih nyenyak dari biasanya, dan semoga aku selalu menjadi orang yang kamu rindu.",
+            "Semoga malam ini penuh dengan doa dan harapan indah untuk masa depan kita, dan semoga Allah selalu memberkati perjalanan kita.",
+            "Selamat malam, semoga kamu tidur dengan rasa damai dan tidurmu dihiasi dengan mimpi-mimpi indah yang penuh kebahagiaan.",
+            "Semoga malam ini Allah memberikanmu perlindungan dan ketenangan, dan semoga besok hari membawa kebahagiaan yang lebih indah.",
+            "Cinta, semoga malam ini kamu merasa sejuk dan nyaman, dan semoga kita selalu bersama dalam setiap doa.",
+            "Selamat malam, semoga tidurmu dipenuhi dengan mimpi indah yang membawa kebahagiaan, dan semoga besok hari membawa harapan baru.",
+            "Semoga malam ini kamu bisa merasa tenang, dan semoga Allah memberikanmu tidur yang penuh dengan kedamaian dan ketenangan.",
+            "Cinta, semoga malam ini penuh dengan kedamaian, dan semoga Allah selalu menjaga setiap langkah kita, baik di dunia maupun akhirat.",
+            "Semoga malam ini kamu merasa bahagia meskipun jarak memisahkan kita, karena cintaku selalu ada di hatimu.",
+            "Selamat malam, semoga tidurmu dipenuhi dengan kedamaian, dan semoga Allah memberikanmu mimpi yang membawa harapan baru.",
+            "Cinta, semoga malam ini Allah melimpahkan berkah-Nya padamu, dan semoga kamu bangun besok dengan penuh semangat.",
+            "Semoga tidurmu malam ini penuh dengan ketenangan, dan semoga kita selalu bisa berbagi kebahagiaan meskipun dalam jarak yang jauh.",
+            "Selamat malam, semoga segala penatmu hilang dan kamu bisa tidur dengan penuh rasa syukur atas segala yang telah Allah berikan.",
+            "Cinta, semoga malam ini kamu merasa nyaman dan tenang, dan semoga besok kita bisa kembali berbagi momen indah bersama.",
+            "Semoga malam ini kamu diberi keberkahan oleh Allah, dan semoga esok hari kita bisa menjalani hidup bersama dengan penuh cinta.",
+            "Selamat malam, semoga setiap doa yang kamu panjatkan dipenuhi dengan harapan indah, dan semoga kita selalu berada di jalan yang benar.",
+            "Cinta, semoga malam ini tidurmu penuh dengan ketenangan, dan semoga besok kita bisa kembali merajut mimpi bersama."
+        ];
+
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            const dayOfYear = now.getDate(); // Menggunakan tanggal untuk memilih pesan
+            let greeting = '';
+            let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
+            let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+            let harapanMessage = '';
+
+            let harapanArray = [];
+            if (hours < 12) {
+                greeting = `Harapan di Pagi ini untuk ${randomNickname}`;
+                harapanArray = pagiharapan;
+            } else if (hours < 15) {
+                greeting = `Harapan di Siang ini untuk ${randomNickname}`;
+                harapanArray = siangharapan;
+            } else if (hours < 18) {
+                greeting = `Harapan di Sore ini untuk ${randomNickname}`;
+                harapanArray = soreharapan;
+            } else {
+                greeting = `Harapan di Malam ini untuk ${randomNickname}`;
+                harapanArray = malamharapan;
+            }
+
+            // Pilih pesan berdasarkan hari (dayOfYear)
+            harapanMessage = harapanArray[dayOfYear % harapanArray.length];
+            document.getElementById('greeting').innerText = greeting;
+            document.getElementById('harapan-message').innerText = harapanMessage;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+
+</html>
