@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebak-Tebakan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #fda8b5;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn-back {
+            background-color: #ff8497;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #jawaban {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="content">
+                    <h3 id="greeting"></h3>
+                    <p id="tebak-tebakan" style="font-size: 1.5rem;"></p>
+                    <button id="jawab-btn" class="btn">Jawab</button>
+                    <p id="jawaban" style="font-size: 1.5rem; font-weight: bold;"></p>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container">
+            <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
+        </div>
+    </div>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const todayDate = now.toLocaleDateString('id-ID');
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            let greeting = '';
+            let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
+            let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+
+            if (hours < 12) {
+                greeting = `Selamat Pagii ${randomNickname}!!`;
+            } else if (hours < 15) {
+                greeting = `Selamat Siaang ${randomNickname}!!`;
+            } else if (hours < 18) {
+                greeting = `Selamat Soree ${randomNickname}!!`;
+            } else {
+                greeting = `Selamat Malaam ${randomNickname}!!`;
+            }
+            document.getElementById('greeting').innerText = greeting;
+
+            const tebakTebakanPagi = [
+                { question: "Kenapa ayam bertelur di pagi hari?", answer: "Karena kalau siang sudah masuk sekolah." },
+                { question: "Kenapa matahari terbit di timur setiap pagi?", answer: "Karena kalau di barat dia lagi cari sunset." },
+                { question: "Kenapa kopi selalu pahit di pagi hari?", answer: "Karena yang manis itu kamu, bukan kopinya." },
+                { question: "Apa bedanya kamu sama matahari pagi?", answer: "Matahari pagi bikin hangat, kamu bikin nyaman." },
+                { question: "Kenapa roti selalu ada di pagi hari?", answer: "Karena kalau malam, dia jadi cemilan." },
+                { question: "Apa yang suka menyapa pagi?", answer: "Burung, embun, dan doa dari aku buat kamu." },
+                { question: "Kenapa alarm sering bunyi pagi-pagi?", answer: "Karena dia nggak sabar ngingetin aku buat mikirin kamu." },
+                { question: "Apa yang bikin pagi jadi lebih cerah?", answer: "Senyum kamu di bayangan aku." },
+                { question: "Kenapa susu dan sereal cocok di pagi hari?", answer: "Karena mereka seromantis kita." },
+                { question: "Kenapa embun pagi selalu muncul?", answer: "Karena dia iri nggak bisa bikin kamu basah mata haru." },
+                { question: "Apa bedanya kamu sama pagi?", answer: "Kalau pagi cuma datang sekali sehari, kamu ada di hati setiap saat." },
+                { question: "Kenapa matahari selalu semangat terbit di pagi hari?", answer: "Karena dia tahu bakal lihat kamu tersenyum." },
+                { question: "Apa yang nggak pernah lupa menyapa pagi?", answer: "Alarm, burung, dan rinduku ke kamu." },
+                { question: "Kenapa sarapan itu penting di pagi hari?", answer: "Karena biar aku kuat nunggu chat dari kamu." },
+                { question: "Apa yang lebih indah dari mentari pagi?", answer: "Tatapan matamu yang bikin hangat hati." },
+                { question: "Kenapa orang suka jogging pagi-pagi?", answer: "Biar bisa lari ke hatimu lebih cepat." },
+                { question: "Kenapa kopi sering diminum di pagi hari?", answer: "Karena pahitnya nggak sebanding sama manisnya kamu." },
+                { question: "Apa yang bikin pagi jadi lebih spesial?", answer: "Kalau bangun tidur langsung dapat kabar dari kamu." },
+                { question: "Kenapa bulan nggak ada di pagi hari?", answer: "Karena dia tahu yang indah itu senyummu, bukan dia." },
+                { question: "Kenapa orang suka mandi pagi?", answer: "Biar segar pas ketemu kamu di mimpi." },
+                { question: "Apa yang selalu datang di pagi hari tapi nggak pernah malam?", answer: "Embun, dan perasaan hangat pas bayangin kamu." },
+                { question: "Kenapa ayam jago berkokok di pagi hari?", answer: "Karena dia iri sama aku yang selalu manggil nama kamu." },
+                { question: "Apa yang suka dinanti di pagi hari?", answer: "Matahari, kopi, dan chat selamat pagi dari kamu." },
+                { question: "Kenapa orang suka sarapan nasi uduk pagi-pagi?", answer: "Karena sesederhana nasi uduk, sesederhana itu rinduku ke kamu." },
+                { question: "Kenapa embun suka muncul di pagi hari?", answer: "Karena dia nggak tahan pengen lihat kamu." },
+                { question: "Apa bedanya mentari pagi sama kamu?", answer: "Mentari cuma terbit sekali sehari, kamu terbit di pikiran aku setiap waktu." },
+                { question: "Kenapa burung suka berkicau pagi-pagi?", answer: "Karena dia pengen jadi alarm yang nyemangatin aku buat mikirin kamu." },
+                { question: "Apa yang selalu bikin rindu di pagi hari?", answer: "Kehadiran kamu yang selalu bikin cerah hariku." },
+                { question: "Kenapa awan selalu muncul pagi-pagi?", answer: "Karena dia pengen ngelindungin kamu dari sinar mentari yang terlalu silau." },
+                { question: "Kenapa pagi itu selalu indah?", answer: "Karena aku selalu bangun dengan pikiran tentang kamu." }
+            ];
+
+            const tebakTebakanSiang = [
+                { question: "Kenapa matahari siang lebih panas?", answer: "Karena dia cemburu sama hangatnya senyummu." },
+                { question: "Kenapa orang suka makan siang?", answer: "Biar nggak lemes nunggu chat dari kamu." },
+                { question: "Apa bedanya kamu sama matahari siang?", answer: "Matahari siang bikin gerah, kamu bikin betah." },
+                { question: "Kenapa awan sering menutupi matahari siang?", answer: "Karena dia tahu mataharinya kalah terang sama kamu." },
+                { question: "Kenapa nasi padang enak dimakan siang hari?", answer: "Karena pedasnya nggak sepedas rindu aku ke kamu." },
+                { question: "Apa yang bikin siang jadi lebih cerah?", answer: "Kabar dari kamu yang selalu bikin senang." },
+                { question: "Kenapa es teh manis paling enak diminum siang-siang?", answer: "Karena cuma dia yang bisa bersaing sama manisnya kamu." },
+                { question: "Kenapa orang suka tidur siang?", answer: "Biar bisa mimpiin kamu lebih lama." },
+                { question: "Kenapa bayangan kita terlihat jelas di siang hari?", answer: "Karena dia nggak mau kalah jelas sama perasaanku ke kamu." },
+                { question: "Kenapa terik matahari siang bikin panas?", answer: "Karena matahari lupa, kamu udah cukup bikin hatiku hangat." },
+                { question: "Apa yang bikin siang hari nggak membosankan?", answer: "Kamu yang selalu ada di pikiranku." },
+                { question: "Kenapa orang sering makan siang bareng teman?", answer: "Biar nggak kesepian kayak aku kalau nggak ada kamu." },
+                { question: "Apa yang selalu menunggu di siang hari?", answer: "Angin sepoi-sepoi dan chat balasan darimu." },
+                { question: "Kenapa es krim laku di siang hari?", answer: "Karena cuma dia yang bisa bikin adem, selain senyummu." },
+                { question: "Kenapa matahari di siang hari nggak pernah istirahat?", answer: "Karena dia sibuk mengagumi keindahanmu dari kejauhan." },
+                { question: "Apa yang selalu indah di bawah matahari siang?", answer: "Bayangan kamu yang selalu ada di hati aku." },
+                { question: "Kenapa burung jarang terlihat siang hari?", answer: "Karena mereka lagi cari pasangan, kayak aku cari kamu." },
+                { question: "Kenapa orang suka ngeluh siang itu panas?", answer: "Karena mereka nggak tahu hatiku lebih panas pas kangen kamu." },
+                { question: "Apa yang paling romantis di siang hari?", answer: "Ngobrol sama kamu walau cuma lewat pesan." },
+                { question: "Kenapa hujan jarang turun di siang hari?", answer: "Karena dia nggak mau merusak hariku yang sudah indah mikirin kamu." },
+                { question: "Kenapa siang lebih terang daripada pagi?", answer: "Karena cintaku ke kamu makin besar dari waktu ke waktu." },
+                { question: "Apa yang selalu bikin siang hari jadi segar?", answer: "Bayangin ketemu kamu nanti sore." },
+                { question: "Kenapa matahari nggak pernah istirahat siang?", answer: "Karena dia pengen lihat kamu terus." },
+                { question: "Kenapa kipas angin jadi sahabat siang hari?", answer: "Karena dia ngerti kalau rinduku ke kamu bikin aku kepanasan." },
+                { question: "Apa yang bikin siang hari nggak terlalu membosankan?", answer: "Ngobrol sama kamu, walau cuma sebentar." },
+                { question: "Kenapa daun terlihat lebih hijau di siang hari?", answer: "Karena mereka lagi semangat kasih warna, kayak aku semangat nunggu kamu." },
+                { question: "Kenapa siang itu selalu melelahkan?", answer: "Karena hatiku capek nahan rindu ke kamu." },
+                { question: "Apa yang bikin siang jadi lebih tenang?", answer: "Dengar suaramu walau cuma lewat telepon." },
+                { question: "Kenapa bayangan kita lebih pendek siang hari?", answer: "Karena yang panjang cuma rasa rinduku ke kamu." },
+                { question: "Kenapa orang suka berteduh di siang hari?", answer: "Karena nggak ada yang seteduh senyumanmu." }
+            ];
+
+            const tebakTebakanSore = [
+                { question: "Kenapa senja selalu indah di sore hari?", answer: "Karena dia malu-malu kalah cantik sama kamu." },
+                { question: "Apa bedanya kamu sama senja?", answer: "Senja itu sebentar, kamu abadi di hati aku." },
+                { question: "Kenapa angin sore selalu sejuk?", answer: "Karena dia tahu hatiku sudah hangat mikirin kamu." },
+                { question: "Kenapa orang suka duduk santai di sore hari?", answer: "Karena sambil duduk, mereka bisa mikirin kamu." },
+                { question: "Apa yang bikin senja di sore hari begitu spesial?", answer: "Karena dia selalu mengingatkan aku untuk bersyukur punya kamu." },
+                { question: "Kenapa burung pulang ke sarang di sore hari?", answer: "Karena mereka nggak mau jauh dari yang tersayang, kayak aku ke kamu." },
+                { question: "Kenapa langit berubah warna di sore hari?", answer: "Karena dia sedang merona, lihat kamu makin cantik." },
+                { question: "Apa yang selalu hadir di sore hari?", answer: "Kopi, cemilan, dan bayangan indahnya senyum kamu." },
+                { question: "Kenapa orang suka menikmati matahari terbenam?", answer: "Karena cuma senja yang bisa menyaingi cantiknya kamu." },
+                { question: "Apa yang bikin sore hari jadi romantis?", answer: "Melihat senja sambil membayangkan jalan bareng kamu." },
+                { question: "Kenapa teh hangat cocok diminum sore-sore?", answer: "Karena dia tahu aku butuh sesuatu yang hangat kayak pelukanmu." },
+                { question: "Kenapa orang suka jogging sore-sore?", answer: "Karena ingin lari dari kenyataan kalau mereka belum punya kamu." },
+                { question: "Apa yang bikin langit sore indah?", answer: "Pantulan wajahmu di setiap kilau senjanya." },
+                { question: "Kenapa sore itu terasa damai?", answer: "Karena suara angin seperti bisikan lembut namamu." },
+                { question: "Kenapa lampu jalan mulai menyala di sore hari?", answer: "Karena mereka tahu senyummu sudah cukup menerangi." },
+                { question: "Kenapa orang suka foto-foto saat sunset?", answer: "Karena mereka pengen ngabadikan indahnya senja sebelum ketemu kamu." },
+                { question: "Kenapa sore itu waktu yang paling tenang?", answer: "Karena hati ini sudah nyaman mikirin kamu sepanjang hari." },
+                { question: "Kenapa senja selalu terlihat oranye?", answer: "Karena langit sedang menunjukkan rasa cintanya ke bumi, kayak aku ke kamu." },
+                { question: "Apa yang suka dibawa angin sore?", answer: "Rindu dari aku yang ingin cepat ketemu kamu." },
+                { question: "Kenapa sunset selalu jadi momen romantis?", answer: "Karena dia tahu, senja itu waktu yang pas buat bayangin kamu." },
+                { question: "Kenapa orang suka menikmati cemilan di sore hari?", answer: "Karena nggak ada yang lebih manis kecuali kenangan sama kamu." },
+                { question: "Kenapa sore hari sering bikin kangen?", answer: "Karena warnanya mengingatkan aku pada senyummu." },
+                { question: "Kenapa pelangi kadang muncul di sore hari?", answer: "Karena langit ingin menunjukkan bahwa kamu nggak sendirian." },
+                { question: "Kenapa awan terlihat lebih cantik di sore hari?", answer: "Karena mereka sedang meniru senyumanmu." },
+                { question: "Apa yang selalu dirindukan dari sore hari?", answer: "Suasananya yang hangat seperti perasaan aku ke kamu." },
+                { question: "Kenapa sore sering bikin orang melamun?", answer: "Karena diam-diam mereka lagi mikirin seseorang, kayak aku ke kamu." },
+                { question: "Apa yang suka datang bersama sore hari?", answer: "Angin sepoi-sepoi dan harapan bisa ketemu kamu lagi." },
+                { question: "Kenapa matahari tenggelam di sore hari?", answer: "Karena dia ingin memberikan panggung untuk keindahanmu." },
+                { question: "Apa yang bikin sore jadi momen favorit?", answer: "Karena itu waktu terbaik untuk mengenang kamu." },
+                { question: "Kenapa hati terasa damai di sore hari?", answer: "Karena langit, angin, dan senja, semuanya mengingatkan aku pada kamu." }
+            ];
+
+            const tebakTebakanMalam = [
+                { question: "Kenapa bintang selalu terlihat terang di malam hari?", answer: "Karena mereka ingin bersaing dengan terang matamu." },
+                { question: "Kenapa bulan selalu muncul di malam hari?", answer: "Karena dia nggak mau kalah romantis sama kamu." },
+                { question: "Kenapa malam hari terasa lebih tenang?", answer: "Karena rindu aku ke kamu sedang berbisik pelan-pelan." },
+                { question: "Kenapa orang suka makan malam bareng?", answer: "Karena mereka tahu, makan berdua lebih hangat." },
+                { question: "Kenapa malam selalu gelap?", answer: "Supaya bintang bisa terlihat terang, seperti cinta aku ke kamu." },
+                { question: "Kenapa orang suka tidur di malam hari?", answer: "Biar bisa ketemu kamu di mimpi." },
+                { question: "Kenapa bintang-bintang nggak pernah jatuh?", answer: "Karena mereka tahu, kamu sudah jadi bintang di hati aku." },
+                { question: "Apa yang selalu dinanti saat malam hari?", answer: "Chat selamat malam dari kamu." },
+                { question: "Kenapa angin malam terasa dingin?", answer: "Karena dia tahu, hatiku sudah hangat mikirin kamu." },
+                { question: "Apa bedanya kamu sama bulan?", answer: "Bulan hanya menerangi malam, kamu menerangi hidupku." },
+                { question: "Kenapa lilin cocok dinyalakan malam-malam?", answer: "Karena dia tahu, suasana jadi lebih romantis kayak kamu dan aku." },
+                { question: "Kenapa hujan rintik-rintik sering turun di malam hari?", answer: "Karena dia ingin menemani orang-orang yang rindu seperti aku." },
+                { question: "Apa yang selalu menemani malam hari?", answer: "Lampu, kopi, dan bayangan wajah kamu." },
+                { question: "Kenapa langit malam terlihat indah?", answer: "Karena ada bayangan kamu di dalamnya." },
+                { question: "Kenapa orang suka cerita-cerita di malam hari?", answer: "Karena malam adalah waktu terbaik untuk mengenang kamu." },
+                { question: "Kenapa bulan selalu muncul di atas?", answer: "Karena dia ingin jadi saksi cinta kita." },
+                { question: "Apa yang bikin malam jadi lebih hangat?", answer: "Dengar suaramu sebelum tidur." },
+                { question: "Kenapa lampu jalan selalu menyala di malam hari?", answer: "Karena mereka tahu senyummu sudah cukup menerangi jalanku." },
+                { question: "Kenapa malam sering membuat orang melamun?", answer: "Karena malam adalah waktu yang pas untuk mikirin kamu." },
+                { question: "Apa yang bikin malam jadi spesial?", answer: "Doa-doa yang kupanjatkan untuk kebaikanmu." },
+                { question: "Kenapa orang suka melihat langit malam?", answer: "Karena mereka mencari bintang, seperti aku mencari kamu." },
+                { question: "Kenapa malam sering bikin orang rindu?", answer: "Karena malam adalah tempat menyimpan kenangan tentang kamu." },
+                { question: "Apa yang suka datang di malam hari?", answer: "Rindu, doa, dan harapan bisa melihatmu lagi." },
+                { question: "Kenapa bulan selalu tersenyum di malam hari?", answer: "Karena dia lihat aku lagi mikirin kamu." },
+                { question: "Kenapa orang suka menatap langit sebelum tidur?", answer: "Karena berharap bisa melihat bayanganmu di bintang." },
+                { question: "Apa yang bikin malam lebih indah?", answer: "Bayangan wajahmu yang selalu ada di pikiranku." },
+                { question: "Kenapa malam selalu penuh misteri?", answer: "Karena hati ini penuh rahasia cinta untukmu." },
+                { question: "Kenapa bulan sabit terlihat seperti senyuman?", answer: "Karena dia sedang meniru senyuman kamu." },
+                { question: "Apa yang bikin malam terasa lebih damai?", answer: "Doa sebelum tidur yang menyebut namamu." },
+                { question: "Kenapa bintang-bintang berkumpul di malam hari?", answer: "Karena mereka ingin melihat kisah cinta kita." }
+            ];
+
+            let selectedTebakTebakan;
+            if (hours < 12) {
+                selectedTebakTebakan = tebakTebakanPagi;
+            } else if (hours < 15) {
+                selectedTebakTebakan = tebakTebakanSiang;
+            } else if (hours < 18) {
+                selectedTebakTebakan = tebakTebakanSore;
+            } else {
+                selectedTebakTebakan = tebakTebakanMalam;
+            }
+
+            const storedData = JSON.parse(localStorage.getItem('tebakanData'));
+            if (!storedData || storedData.date !== todayDate) {
+                const randomTebakan = selectedTebakTebakan[Math.floor(Math.random() * selectedTebakTebakan.length)];
+                document.getElementById('tebak-tebakan').innerText = randomTebakan.question;
+                document.getElementById('jawaban').innerText = randomTebakan.answer;
+                localStorage.setItem('tebakanData', JSON.stringify({ date: todayDate, tebak: randomTebakan }));
+            } else {
+                document.getElementById('tebak-tebakan').innerText = storedData.tebak.question;
+                document.getElementById('jawaban').innerText = storedData.tebak.answer;
+            }
+        }
+
+        document.getElementById('jawab-btn').addEventListener('click', function () {
+            const jawaban = document.getElementById('jawaban');
+            jawaban.style.display = 'block';
+            setTimeout(() => {
+                jawaban.style.display = 'none';
+            }, 5000); // Jawaban hilang setelah 10 detik
+        });
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+
+</html>
