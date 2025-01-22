@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Game - Susun Kata</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .btn {
+            background-color: #FF3C5B;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 25px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: #FF1C2E;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .input-box {
+            margin: 30px 0;
+            font-size: 18px;
+        }
+
+        .input-box input {
+            padding: 15px;
+            font-size: 18px;
+            width: 100%;
+            border-radius: 25px;
+            border: 2px solid #FF3C5B;
+            text-align: center;
+            background-color: #f8d0d9;
+            box-sizing: border-box;
+        }
+
+        .input-box input:focus {
+            border-color: #FF1C2E;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .footer a {
+            color: #FF1C2E;
+            text-decoration: none;
+        }
+
+        .gif-container {
+            text-align: center;
+            margin-top: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .gif-container img {
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            animation: popup 1s ease-out;
+        }
+
+
+        @keyframes popup {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                width: 100%;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .input-box input {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .footer {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="content">
+                    <div class="header">
+                        <p id="current-date"></p>
+                        <p id="current-time"></p>
+                    </div>
+
+                    <h3 id="greeting"></h3>
+                    <p id="daily-message"></p>
+                    <p>Skor: <span id="score">0</span></p>
+                    <p id="word-to-arrange">C__T_k</p>
+
+                    <div class="input-box">
+                        <input type="text" id="user-answer" maxlength="1" placeholder="Masukkan huruf...">
+                    </div>
+
+                    <div class="btn-grid">
+                        <button class="btn" onclick="checkAnswer()">Cek Jawaban</button>
+                        <button class="btn" id="hint-btn" onclick="useHint()">Gunakan Hint</button>
+                        <button class="btn" onclick="nextWord()">Kata Selanjutnya</button>
+                        <button class="btn" onclick="window.location.href='index.html'">Kembali</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 <a href="#">Mini Game</a> - Semua Hak Dilindungi</p>
+        </div>
+
+        <!-- GIF berhasil -->
+        <div class="gif-container" id="success-gif-container">
+            <img id="success-gif" src="suprise.gif" alt="Berhasil!">
+        </div>
+
+        <div class="gif-container" id="failure-gif-container">
+            <img id="failure-gif" src="failure.gif" alt="Gagal!">
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let score = 0;
+        let wrongAttempts = 0;
+        let currentWords = ["sayangkuu", "indah", "cantiku", "bidadariku", 'kekasihku', "bahagia", "harapan", "kesuksesan", "perjuangan"];
+        let currentWord = getRandomWord();
+        let displayWord = generateDisplayWord(currentWord);
+        let hintUsed = false;
+
+        document.getElementById("word-to-arrange").innerText = displayWord;
+
+        function getRandomWord() {
+            return currentWords[Math.floor(Math.random() * currentWords.length)];
+        }
+
+        function generateDisplayWord(word) {
+            let display = word.split('').map((char) => '_').join('');
+            return display;
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("user-answer").value.trim().toLowerCase();
+
+            if (userAnswer.length === 1) {
+                if (currentWord.includes(userAnswer)) {
+                    let newDisplayWord = displayWord.split('');
+                    for (let i = 0; i < currentWord.length; i++) {
+                        if (currentWord[i] === userAnswer) {
+                            newDisplayWord[i] = userAnswer;
+                        }
+                    }
+                    displayWord = newDisplayWord.join('');
+                    document.getElementById("word-to-arrange").innerText = displayWord;
+                    score += 2;
+                    alert("Jawaban Benar! Poin: " + score);
+                    showSuccessGif(score);
+                    updateScore();
+                } else {
+                    wrongAttempts += 1;
+                    alert("Jawaban Salah!");
+                    if (wrongAttempts >= 3) {
+                        showFailureGif();
+                    }
+                }
+            }
+
+            document.getElementById("user-answer").value = "";
+        }
+
+        function nextWord() {
+            currentWord = getRandomWord();
+            displayWord = generateDisplayWord(currentWord);
+            document.getElementById("word-to-arrange").innerText = displayWord;
+            hintUsed = false;
+            document.getElementById("hint-btn").disabled = false;
+        }
+
+        function showSuccessGif(score) {
+            if (score % 2 === 0) {
+                const successGifContainer = document.getElementById("success-gif-container");
+                successGifContainer.style.display = "flex";
+                setTimeout(() => successGifContainer.style.display = "none", 2000);
+            }
+        }
+
+        function showFailureGif() {
+            const failureGifContainer = document.getElementById("failure-gif-container");
+            failureGifContainer.style.display = "flex";
+            setTimeout(() => failureGifContainer.style.display = "none", 5000);
+        }
+
+        function useHint() {
+            if (hintUsed) {
+                alert("Hint sudah digunakan!");
+                return;
+            }
+
+            let newDisplayWord = displayWord.split('');
+            for (let i = 0; i < currentWord.length; i++) {
+                if (newDisplayWord[i] === '_') {
+                    newDisplayWord[i] = currentWord[i];
+                    break;
+                }
+            }
+            displayWord = newDisplayWord.join('');
+            document.getElementById("word-to-arrange").innerText = displayWord;
+            hintUsed = true;
+            document.getElementById("hint-btn").disabled = true;
+            alert("Hint digunakan! Satu huruf muncul.");
+        }
+
+        function updateScore() {
+            document.getElementById("score").innerText = score;
+        }
+        // Memperbarui skor
+        function updateScore() {
+            document.getElementById("score").innerText = score;
+        }
+        setInterval(function () {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            let greeting = '';
+            let randomNickname = "Sayang";
+
+            if (hours < 12) {
+                greeting = `Selamat Pagi ${randomNickname}`;
+            } else if (hours < 15) {
+                greeting = `Selamat Siang ${randomNickname}`;
+            } else if (hours < 18) {
+                greeting = `Selamat Sore ${randomNickname}`;
+            } else {
+                greeting = `Selamat Malam ${randomNickname}`;
+            }
+            document.getElementById('greeting').innerText = greeting;
+        }, 1000);
+    </script>
+</body>
+
+</html>
