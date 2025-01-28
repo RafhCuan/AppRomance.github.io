@@ -168,8 +168,13 @@
                 "Hari ini aku bersyukur, karena Tuhan menciptakan kamu untuk melengkapi hidupku."
             ];
             // Menampilkan pesan berdasarkan hari dalam seminggu
-            const dayOfWeek = now.getDay();
-            document.getElementById('daily-message').innerText = dailyMessages[dayOfWeek];
+            // Hitung indeks pesan berdasarkan tanggal
+            const today = new Date();
+            const baseDate = new Date(2025, 0, 1); // Tanggal awal rotasi (1 Januari 2025)
+            const daysSinceBase = Math.floor((today - baseDate) / (1000 * 60 * 60 * 24)); // Selisih hari
+            const messageIndex = daysSinceBase % dailyMessages.length; // Modulus untuk rotasi pesan
+
+            document.getElementById('daily-message').innerText = dailyMessages[messageIndex];
         }
         setInterval(updateDateTime, 1000);
         updateDateTime();
