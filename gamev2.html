@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>harapan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FF6B81;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background-color: #ff8497;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Tambahkan style baru ini di dalam tag style */
+        .game-container {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff0f3;
+            border-radius: 10px;
+        }
+
+        .draggable-word {
+            background-color: #FF3C5B;
+            color: white;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: move;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .draggable-word:hover {
+            transform: scale(1.05);
+        }
+
+        .drop-zone {
+            min-height: 60px;
+            border: 2px dashed #ff8497;
+            border-radius: 10px;
+            margin: 15px 0;
+            padding: 10px;
+        }
+
+        #result-message {
+            font-size: 1.2em;
+            margin: 15px 0;
+            min-height: 30px;
+        }
+
+        .btn-game {
+            background-color: #ff8497;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin: 5px;
+            font-weight: 500;
+        }
+
+        .btn-game:hover {
+            background-color: #FF3C5B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 60, 91, 0.4);
+        }
+
+        .btn-game:disabled {
+            background-color: #ffb8c4;
+            cursor: not-allowed;
+        }
+
+        .hint-counter {
+            font-size: 0.9em;
+            color: #FF3C5B;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="content">
+                    <div class="game-container">
+                        <h4 class="mb-4">Susunlah Kata-Kata Romantis Ini!</h4>
+                        <div class="drop-zone" id="dropZone"></div>
+                        <div id="wordContainer" class="mb-4"></div>
+                        <div id="result-message"></div>
+                        <button class="btn btn-game" onclick="checkAnswer()">Check Jawaban</button>
+                        <button class="btn btn-game" onclick="resetGame()">Reset</button>
+                        <button class="btn btn-game" onclick="showHint()" id="hintButton">
+                            <i class="bi bi-lightbulb"></i> Hint (2x)
+                        </button>
+                        <div class="hint-counter" id="hintCounter"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="btn-grid">
+                    <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // Tambahkan kode game di dalam script
+        const romanticSentences = [
+            "Kamu adalah cinta terindah dalam hidupku",
+            "Aku ingin selalu disampingmu selamanya",
+            "Kamu membuat hidupku lebih berarti",
+            "Setiap detik bersamamu adalah anugerah",
+            "Cintaku padamu akan tetap abadi selamanya",
+            "Kau adalah mimpi yang menjadi kenyataan",
+            "Hatiku hanya untukmu selamanya",
+            "Bersamamu, aku menemukan kebahagiaan sejati",
+            "Kamu adalah alasan aku tersenyum setiap hari",
+            "Dalam setiap hembusan nafasku, ada namamu",
+            "Aku mencintaimu lebih dari kata-kata yang bisa ungkapkan",
+            "Kamu adalah jawaban dari semua doaku",
+            "Di setiap mimpi, hanya ada kamu",
+            "Aku tak bisa membayangkan hidup tanpamu",
+            "Kamu adalah pelangi setelah hujan dalam hidupku",
+            "Cintamu adalah rumah tempat hatiku berlabuh",
+            "Bersamamu, dunia terasa lebih indah",
+            "Setiap hari bersamamu adalah hadiah berharga",
+            "Aku ingin menua bersamamu, menjalani setiap cerita hidup",
+            "Kamu adalah lagu terindah dalam hidupku",
+            "Pelukanmu adalah tempat teraman di dunia ini",
+            "Aku ingin menjadi alasan di balik senyummu setiap hari",
+            "Tanpamu, aku hanyalah langit tanpa bintang",
+            "Cinta kita seperti matahari, selalu bersinar setiap hari",
+            "Hanya kamu yang bisa mengisi kekosongan di hatiku",
+            "Aku bersyukur setiap hari karena memilikimu",
+            "Cintaku padamu seperti ombak yang tak pernah berhenti",
+            "Kamu adalah cahaya yang menerangi gelapnya hatiku",
+            "Kebersamaan denganmu adalah kebahagiaan terbesar bagiku",
+            "Setiap kali melihatmu, aku jatuh cinta lagi",
+            "Hati ini hanya berdenyut untukmu",
+            "Tak ada tempat yang lebih indah selain di sampingmu",
+            "Saat bersamamu, semua rasa lelahku hilang",
+            "Aku akan mencintaimu sampai bintang tak lagi bersinar",
+            "Kamu adalah keajaiban yang Tuhan berikan padaku",
+            "Hanya kamu yang bisa membuat hatiku berdebar seperti ini",
+            "Cinta ini bukan sekadar kata, tapi janji selamanya",
+            "Aku ingin menggenggam tanganmu sampai akhir waktu",
+            "Cintamu adalah kompas yang membimbing hatiku",
+            "Jika mencintaimu adalah mimpi, maka aku tak ingin terbangun",
+            "Tak peduli seberapa jauh kita, hatiku selalu dekat denganmu",
+            "Kamu adalah bagian terbaik dalam hidupku",
+            "Aku tak butuh dunia, selama aku memilikimu",
+            "Hatiku hanya mengenal satu nama, namamu",
+            "Setiap senyumanmu adalah sinar yang menghangatkan hatiku",
+            "Aku mencintaimu lebih dari sekadar kata",
+            "Cinta kita adalah kisah terindah yang pernah ada",
+            "Selamanya aku ingin berada di sampingmu",
+            "Kamu adalah detak jantung dalam kehidupanku",
+            "Aku berjanji untuk mencintaimu di setiap waktu",
+            "Cintaku padamu tak akan pudar meski waktu berlalu"
+        ];
+
+        let currentSentence;
+        let hintsUsed = 0;
+        let maxHints = 2;
+
+        function getRandomSentence() {
+            return romanticSentences[Math.floor(Math.random() * romanticSentences.length)];
+        }
+        let correctSentence = "Kamu adalah cinta terindah dalam hidupku";
+        let words = [];
+        let draggedWord = null;
+
+        function initGame() {
+            currentSentence = getRandomSentence();
+            words = currentSentence.split(' ');
+            words = words.sort(() => Math.random() - 0.5);
+
+            // Reset hint
+            hintsUsed = 0;
+            document.getElementById('hintCounter').textContent = `Hint tersisa: ${maxHints - hintsUsed}`;
+            document.getElementById('hintButton').disabled = false;
+
+            // Tampilkan kata-kata yang bisa diseret
+            const wordContainer = document.getElementById('wordContainer');
+            wordContainer.innerHTML = '';
+            words.forEach(word => {
+                const wordElement = document.createElement('div');
+                wordElement.className = 'draggable-word';
+                wordElement.draggable = true;
+                wordElement.textContent = word;
+                wordElement.addEventListener('dragstart', handleDragStart);
+                wordElement.addEventListener('dragend', handleDragEnd);
+                wordContainer.appendChild(wordElement);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedWord = this;
+            this.style.opacity = '0.5';
+        }
+
+        function handleDragEnd(e) {
+            draggedWord = null;
+            this.style.opacity = '1';
+        }
+
+        // Handle drop zone
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', e => e.preventDefault());
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            if (draggedWord) {
+                const clone = draggedWord.cloneNode(true);
+                clone.style.opacity = '1';
+                clone.draggable = false;
+                clone.classList.remove('draggable-word');
+                clone.classList.add('dropped-word');
+                dropZone.appendChild(clone);
+                draggedWord.parentNode.removeChild(draggedWord);
+            }
+        });
+
+        function showHint() {
+            if (hintsUsed >= maxHints) return;
+
+            const correctWords = currentSentence.split(' ');
+            const droppedWords = [...document.getElementsByClassName('dropped-word')];
+
+            for (let i = 0; i < correctWords.length; i++) {
+                if (!droppedWords[i] || droppedWords[i].textContent !== correctWords[i]) {
+                    const correctWord = correctWords[i];
+                    const wordElement = document.createElement('div');
+                    wordElement.className = 'dropped-word hint-word';
+                    wordElement.style.backgroundColor = '#FF3C5B';
+                    wordElement.textContent = correctWord;
+
+                    if (droppedWords[i]) {
+                        document.getElementById('dropZone').replaceChild(wordElement, droppedWords[i]);
+                    } else {
+                        document.getElementById('dropZone').appendChild(wordElement);
+                    }
+
+                    // Hapus hint setelah 2 detik
+                    setTimeout(() => {
+                        wordElement.remove();
+                        document.getElementById('result-message').innerHTML =
+                            '<span style="color: #FF3C5B;">Hint sudah hilang, masukkan kata dengan benar!</span>';
+                    }, 2000);
+
+                    break;
+                }
+            }
+
+            hintsUsed++;
+            document.getElementById('hintCounter').textContent = `Hint tersisa: ${maxHints - hintsUsed}`;
+
+            if (hintsUsed >= maxHints) {
+                document.getElementById('hintButton').disabled = true;
+            }
+        }
+
+        function checkAnswer() {
+            const droppedWords = [...document.getElementsByClassName('dropped-word')];
+            const answer = droppedWords.map(word => word.textContent).join(' ');
+
+            if (answer === currentSentence) {
+                document.getElementById('result-message').innerHTML =
+                    '<span style="color: #FF3C5B;">❤️ Jawaban Benar! Kamu Hebat! ❤️</span>';
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                document.getElementById('result-message').innerHTML =
+                    '<span style="color: #FF3C5B;">😢 Masih belum tepat, coba lagi ya!</span>';
+            }
+        }
+
+        function resetGame(hardReset = true) {
+            if (hardReset) {
+                currentSentence = getRandomSentence();
+            }
+            initGame();
+            document.getElementById('dropZone').innerHTML = '';
+            document.getElementById('result-message').innerHTML = '';
+        }
+
+        // Panggil init game saat pertama kali load
+        initGame();
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            const dayOfYear = now.getDate(); // Menggunakan tanggal untuk memilih pesan
+            let greeting = '';
+            let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
+            let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+            document.getElementById('greeting').innerText = greeting;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+
+</html>
