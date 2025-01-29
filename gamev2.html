@@ -133,6 +133,7 @@
             <div class="col">
                 <div class="content">
                     <div class="game-container">
+                        <h3 id="greeting"></h3>
                         <h4 class="mb-4">Susunlah Kata-Kata Romantis Ini!</h4>
                         <div class="drop-zone" id="dropZone"></div>
                         <div id="wordContainer" class="mb-4"></div>
@@ -343,17 +344,28 @@
 
         // Panggil init game saat pertama kali load
         initGame();
+
         function updateDateTime() {
             const now = new Date();
+            const todayDate = now.toLocaleDateString('id-ID');
             const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
             document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
             document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
             const hours = now.getHours();
-            const dayOfYear = now.getDate(); // Menggunakan tanggal untuk memilih pesan
             let greeting = '';
             let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
             let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+
+            if (hours < 12) {
+                greeting = `Selamat Pagii dan Selamat Bermain ${randomNickname}!!`;
+            } else if (hours < 15) {
+                greeting = `Selamat Siaang dan Selamat Bermain ${randomNickname}!!`;
+            } else if (hours < 18) {
+                greeting = `Selamat Soree dan Selamat Bermain ${randomNickname}!!`;
+            } else {
+                greeting = `Selamat Malaam dan Selamat Bermain ${randomNickname}!!`;
+            }
             document.getElementById('greeting').innerText = greeting;
         }
         setInterval(updateDateTime, 1000);
