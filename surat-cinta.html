@@ -1,1 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌 Surat Cinta Premium 💌</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b81;
+            --secondary-color: #ff8497;
+            --bg-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .love-letter {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            animation: float 6s infinite ease-in-out;
+            opacity: 0.7;
+            z-index: 0;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .btn-group-custom {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-custom {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-custom:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 60, 91, 0.3);
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            padding: 12px;
+        }
+
+        .template-select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .sub-template-select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid var(--secondary-color);
+            background: white;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #letterContent {
+            font-size: 1.1em;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        .btn-back {
+            background-color: #ff8497;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4 display-4 fw-bold" style="text-align: center;">💌 Surat Cinta Premium 💌</h1>
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+        <!-- Template Selection Dropdown -->
+        <select class="template-select" id="templateSelect" onchange="loadSubTemplates()">
+            <option value="">Pilih Kategori Template</option>
+            <option value="classic">Classic - Romantis Tradisional</option>
+            <option value="modern">Modern - Santai Kekinian</option>
+            <option value="puitis">Puitis - Penuh Metafora</option>
+            <option value="lucu">Lucu - Gaya Humoris</option>
+            <option value="spesial">Spesial - Hari Penting</option>
+        </select>
+
+        <!-- Sub-Template Selection Dropdown -->
+        <select class="sub-template-select" id="subTemplateSelect" style="display: none;"
+            onchange="selectSubTemplate()">
+            <option value="">Pilih Sub-Template</option>
+        </select>
+
+        <!-- Input Section -->
+        <div class="content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3" style="padding-bottom: 20px;">
+                        <label class="form-label">Nama Pasangan</label>
+                        <br>
+                        <input type="text" id="partnerName" style="padding-left: 400px;" class="form-control" required>
+                    </div>
+                    <div class="mb-3" style="padding-bottom: 20px;">
+                        <label class="form-label">Nama Kamu</label>
+                        <br>
+                        <input type="text" id="yourName" style="padding-left: 400px;" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3" style="padding-bottom: 20px;">
+                        <label class="form-label">Pilih Font</label>
+                        <select id="fontSelect" class="form-select">
+                            <option value="Poppins">Poppins</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Courier New">Courier New</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Warna Teks</label>
+                        <input type="color" id="colorPicker" class="form-control form-control-color" value="#ff6b81">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-group-custom mb-4">
+                <button class="btn-custom" onclick="generateLetter()">
+                    <i class="fas fa-magic"></i>
+                    <span>Generate Surat</span>
+                </button>
+                <button class="btn-custom" onclick="downloadPDF()">
+                    <i class="fas fa-download"></i>
+                    <span>Download PDF</span>
+                </button>
+                <button class="btn-custom" onclick="shareLetter()">
+                    <i class="fas fa-share"></i>
+                    <span>Bagikan</span>
+                </button>
+            </div>
+
+            <!-- Letter Preview -->
+            <div class="love-letter">
+                <div id="letterContent" class="letter-content">
+                    Surat cinta akan muncul di sini...
+                </div>
+                <div id="animationContainer"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="btn-grid">
+                        <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Template Surat dengan Sub-Template
+        const templates = {
+            classic: [
+                {
+                    id: 'classic1',
+                    name: 'Classic - Cinta Abadi',
+                    content: (pName, yName) => `Yang terkasih ${pName},
+
+Dengan hati yang berdebar-debar, aku menuliskan surat ini untukmu. Setiap detik bersamamu adalah anugerah terindah yang pernah kumiliki. 
+
+Aku selalu teringat senyumanmu yang mampu menerangi hari-hariku yang kelam. Jangan pernah berubah, ya?
+
+Dengan cinta,
+${yName || 'Kekasihmu'}`
+                },
+                {
+                    id: 'classic2',
+                    name: 'Classic - Rindu yang Mendalam',
+                    content: (pName, yName) => `Untuk ${pName} yang kucinta,
+
+Rindu ini semakin dalam setiap harinya. Aku merindukan senyumanmu, tawamu, dan kehangatan pelukanmu.
+
+Semoga kita segera bertemu lagi, sayang.
+
+Selalu milikmu,
+${yName || 'Kekasihmu'}`
+                }
+            ],
+            modern: [
+                {
+                    id: 'modern1',
+                    name: 'Modern - Santai & Menyenangkan',
+                    content: (pName, yName) => `Hai ${pName}! 💖
+
+Aku mau bilang kalau kamu itu:
+- The best partner ever!
+- Selalu bikin hari-hariku colorful
+- Penyemangat nomer 1
+
+Aku bersyukur banget punya kamu. Let's create more memories together!
+
+Cheers,
+${yName || 'Your Partner'}`
+                },
+                {
+                    id: 'modern2',
+                    name: 'Modern - Gaya Chat',
+                    content: (pName, yName) => `Halo ${pName} 😊
+
+Aku cuma mau bilang...
+Kamu itu spesial banget buat aku! ❤️
+
+Jangan pernah berubah ya, sayang!
+
+${yName || 'Pacarmu'}`
+                }
+            ],
+            puitis: [
+                {
+                    id: 'puitis1',
+                    name: 'Puitis - Cahaya dalam Gelap',
+                    content: (pName, yName) => `Wahai ${pName} yang tercinta,
+
+Bagai sang mentari menyinari fajar,
+Kaulah cahaya yang menghalau kegelapanku.
+Dalam dekapan rindu yang tak terperi,
+Hanya namamu yang terukir di relung jiwa.
+
+${yName || 'Sang Pujaan'}`
+                },
+                {
+                    id: 'puitis2',
+                    name: 'Puitis - Bunga di Taman Hati',
+                    content: (pName, yName) => `Untuk ${pName}, bunga di taman hatiku,
+
+Kau mekar dengan keindahan yang tak terperi,
+Menghiasi setiap sudut jiwaku dengan cinta.
+Aku bersyukur memiliki dirimu,
+Yang selalu menyirami hatiku dengan kasih sayang.
+
+${yName || 'Kekasihmu'}`
+                }
+            ],
+            lucu: [
+                {
+                    id: 'lucu1',
+                    name: 'Lucu - Gaya Santai',
+                    content: (pName, yName) => `Halo ${pName} si paling cantik/ganteng! 😘
+
+Aku cuma mau bilang...
+Kamu itu kayak WiFi, selalu bikin aku nyaman dan nggak bisa jauh-jauh. 😂
+
+Jangan marah ya, aku cuma bercanda. Tapi serius, aku sayang banget sama kamu!
+
+${yName || 'Pacarmu yang kocak'}`
+                },
+                {
+                    id: 'lucu2',
+                    name: 'Lucu - Gaya Chat',
+                    content: (pName, yName) => `Hai ${pName} 😁
+
+Aku mau ngomong sesuatu nih...
+Kamu itu kayak es krim, manis dan selalu bikin aku ketagihan! 🍦
+
+Jangan lupa buat selalu tersenyum ya, sayang!
+
+${yName || 'Pacarmu'}`
+                }
+            ],
+            spesial: [
+                {
+                    id: 'spesial1',
+                    name: 'Spesial - Anniversary',
+                    content: (pName, yName) => `Untuk ${pName}, cintaku,
+
+Hari ini adalah hari yang spesial karena kita merayakan hari jadi kita. Setiap tahun bersamamu adalah hadiah terindah yang pernah kuterima.
+
+Terima kasih telah menjadi bagian dari hidupku. Aku mencintaimu lebih dari apapun.
+
+Selamat hari jadi, sayang!
+${yName || 'Kekasihmu'}`
+                },
+                {
+                    id: 'spesial2',
+                    name: 'Spesial - Valentine',
+                    content: (pName, yName) => `Sayangku, ${pName},
+
+Di hari Valentine ini, aku ingin mengungkapkan betapa berharganya kamu bagiku. Kamu adalah cinta sejatiku, dan aku bersyukur bisa memilikimu.
+
+Mari kita rayakan hari kasih sayang ini dengan cinta yang tulus.
+
+Selamat Hari Valentine!
+${yName || 'Kekasihmu'}`
+                }
+            ]
+        };
+
+        let currentTemplate = null;
+
+        // Fungsi untuk memuat sub-template
+        function loadSubTemplates() {
+            const templateSelect = document.getElementById('templateSelect');
+            const subTemplateSelect = document.getElementById('subTemplateSelect');
+            const selectedCategory = templateSelect.value;
+
+            if (!selectedCategory) {
+                subTemplateSelect.style.display = 'none';
+                return;
+            }
+
+            // Kosongkan dropdown sub-template
+            subTemplateSelect.innerHTML = '<option value="">Pilih Sub-Template</option>';
+
+            // Isi dropdown dengan sub-template yang sesuai
+            templates[selectedCategory].forEach(template => {
+                const option = document.createElement('option');
+                option.value = template.id;
+                option.textContent = template.name;
+                subTemplateSelect.appendChild(option);
+            });
+
+            subTemplateSelect.style.display = 'block';
+        }
+
+        // Fungsi untuk memilih sub-template
+        function selectSubTemplate() {
+            const subTemplateSelect = document.getElementById('subTemplateSelect');
+            const selectedTemplateId = subTemplateSelect.value;
+
+            if (!selectedTemplateId) return;
+
+            // Cari template yang dipilih
+            const selectedCategory = document.getElementById('templateSelect').value;
+            const selectedTemplate = templates[selectedCategory].find(t => t.id === selectedTemplateId);
+
+            currentTemplate = selectedTemplate;
+        }
+
+        // Fungsi utama
+        function generateLetter() {
+            const partnerName = document.getElementById('partnerName').value;
+            if (!partnerName) {
+                alert('Nama pasangan harus diisi!');
+                return;
+            }
+
+            if (!currentTemplate) {
+                alert('Pilih sub-template terlebih dahulu!');
+                return;
+            }
+
+            const yourName = document.getElementById('yourName').value;
+            const fontFamily = document.getElementById('fontSelect').value;
+            const textColor = document.getElementById('colorPicker').value;
+
+            const contentElement = document.getElementById('letterContent');
+            contentElement.style.fontFamily = fontFamily;
+            contentElement.style.color = textColor;
+            contentElement.innerHTML = currentTemplate.content(partnerName, yourName);
+
+            addAnimations();
+        }
+
+        // Fungsi untuk menambahkan animasi hati
+        function addAnimations() {
+            const animationContainer = document.getElementById('animationContainer');
+            animationContainer.innerHTML = Array(5).fill().map(() => `
+                <div class="floating-heart" style="
+                    left: ${Math.random() * 90}%;
+                    top: ${Math.random() * 80}%;
+                    animation-delay: ${Math.random() * 2}s;
+                    color: ${['#ff3c5b', '#ff8497', '#ff6b81'][Math.floor(Math.random() * 3)]};
+                ">
+                    ❤️
+                </div>
+            `).join('');
+        }
+
+        // Fungsi untuk download PDF
+        function downloadPDF() {
+            const doc = new jspdf.jsPDF();
+            const content = document.getElementById('letterContent').innerText;
+            doc.setFontSize(12);
+            doc.text(content, 10, 10);
+            doc.save('surat-cinta.pdf');
+        }
+
+        // Fungsi untuk share via WhatsApp
+        function shareLetter() {
+            const content = document.getElementById('letterContent').innerText;
+            const text = encodeURIComponent(content);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const todayDate = now.toLocaleDateString('id-ID');
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            let greeting = '';
+            let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
+            let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+
+            if (hours < 12) {
+                greeting = `Selamat Pagii dan Selamat Bermain ${randomNickname}!!`;
+            } else if (hours < 15) {
+                greeting = `Selamat Siaang dan Selamat Bermain ${randomNickname}!!`;
+            } else if (hours < 18) {
+                greeting = `Selamat Soree dan Selamat Bermain ${randomNickname}!!`;
+            } else {
+                greeting = `Selamat Malaam dan Selamat Bermain ${randomNickname}!!`;
+            }
+            document.getElementById('greeting').innerText = greeting;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+
+</html>
