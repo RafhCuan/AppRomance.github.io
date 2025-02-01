@@ -1,1 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 Peramal Cinta 🔮</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b81;
+            --secondary-color: #ff8497;
+            --bg-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .crystal-ball {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 30% 30%, #fff, #e1bee7);
+            border-radius: 50%;
+            margin: 20px auto;
+            position: relative;
+            animation: glow 3s infinite alternate;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .crystal-ball {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        .crystal-ball:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 30px rgba(156, 39, 176, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 50px rgba(156, 39, 176, 0.8);
+            }
+        }
+
+        .fortune-text {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1em;
+            border: 2px solid var(--primary-color);
+            transition: all 0.5s;
+        }
+
+        @media (min-width: 768px) {
+            .fortune-text {
+                font-size: 1.2em;
+                padding: 20px;
+            }
+        }
+
+        .btn-mystic {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .btn-mystic {
+                padding: 15px 40px;
+                font-size: 1.1em;
+                width: auto;
+            }
+        }
+
+        .btn-mystic:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(106, 27, 154, 0.4);
+        }
+
+        .btn-mystic:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .history-section {
+            margin-top: 20px;
+        }
+
+        .history-section h5 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .list-group-item {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 5px;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        @media (min-width: 768px) {
+            .list-group-item {
+                font-size: 1em;
+                padding: 15px;
+            }
+        }
+
+        .btn-back {
+            background-color: #ff8497;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: #FF3C5B;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-back:focus {
+            outline: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body style="text-align: center;">
+    <!-- Efek Bintang -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <h1 class="text-center mb-4 display-4 fw-bold">🔮 Peramal Cinta 🔮</h1>
+        <div class="row">
+            <div class="col">
+                <div class="header">
+                    <p id="current-date"></p>
+                    <p id="current-time"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <div class="crystal-ball" onclick="tellFortune()">
+                        <div class="fortune-text" id="fortuneDisplay">
+                            Sentuh bola kristal untuk mengetahui ramalan cintamu...
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <h4>📜 Pertanyaan untuk Peramal:</h4>
+                        <select class="form-select mb-3" style="margin-bottom: 10px;" id="questionSelect">
+                            <option value="future">Apa yang akan terjadi dengan hubungan kami?</option>
+                            <option value="soulmate">Apakah dia jodohku?</option>
+                            <option value="secret">Apa rahasia untuk hubungan yang langgeng?</option>
+                        </select>
+                        <br>
+                        <button class="btn btn-mystic" id="fortuneButton" onclick="tellFortune()">
+                            <i class="fas fa-magic"></i> Dapatkan Ramalan
+                        </button>
+                        <p id="dailyLimitMessage" class="text-muted mt-2" style="display: none;">
+                            Kamu sudah menggunakan ramalan hari ini. Kembali besok ya! 😊
+                        </p>
+                    </div>
+
+                    <div class="history-section">
+                        <h5>📜 Riwayat Ramalan:</h5>
+                        <div id="historyList" class="list-group"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="btn-grid">
+                                <button class="btn-back" onclick="window.location.href='index.html'">Kembali</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Daftar Ramalan Cinta (Lebih Banyak)
+        const loveFortunes = [
+            "Cinta sejatimu akan datang ketika kau paling tidak menyangka...",
+            "Hubungan ini akan mekar seperti bunga di musim semi 🌸",
+            "Kesabaran adalah kunci! Cinta sejati sedang dalam perjalanan 🕊️",
+            "Dia adalah orang yang tepat untukmu, jangan ragu untuk mengungkapkan perasaanmu 💘",
+            "Komunikasi adalah kunci hubungan yang langgeng 🗝️",
+            "Kamu akan bertemu seseorang istimewa di tempat tak terduga 🎭",
+            "Pertahankan kejujuran, itu akan memperkuat hubungan kalian 💎",
+            "Cinta seperti kupu-kupu, semakin dikejar semakin menjauh. Biarkan mengalir 🦋",
+            "Pasanganmu sedang merindukanmu saat ini juga 💞",
+            "Cinta adalah tentang memberi, bukan menerima. Berikan yang terbaik! ❤️",
+            "Jangan pernah menyerah pada cinta, karena cinta sejati selalu menemukan jalannya 🌟",
+            "Kamu akan menemukan kebahagiaan dalam hubungan yang penuh kepercayaan 🌈",
+            "Cinta sejati tidak mengenal waktu atau jarak. Percayalah pada hatimu 🕰️",
+            "Kesabaran dan pengertian adalah pondasi dari hubungan yang kuat 🏰",
+            "Cinta adalah seni saling memahami dan menerima kekurangan masing-masing 🎨",
+            "Jangan pernah membandingkan cintamu dengan orang lain. Setiap cinta itu unik 🌹",
+            "Cinta sejati adalah ketika kamu bisa menjadi dirimu sendiri tanpa takut dihakimi 🌟",
+            "Kamu akan menemukan cinta sejatimu ketika kamu mencintai dirimu sendiri terlebih dahulu 💖",
+            "Cinta adalah tentang saling mendukung dan tumbuh bersama 🌱",
+            "Kamu akan menemukan kebahagiaan sejati dalam hubungan yang penuh kasih sayang 🌟",
+            "Cinta akan datang pada saat yang tepat, saat kamu sudah siap membuka hatimu 💌",
+            "Terkadang, cinta yang kita cari ada di depan mata, tetapi kita perlu waktu untuk menyadarinya 👀",
+            "Cinta yang penuh petualangan akan memberi warna dalam hidupmu. Jangan takut mencoba hal baru ✨",
+            "Percaya pada dirimu dan pada cinta yang datang, karena segala sesuatu terjadi dengan alasan 🦄",
+            "Cinta yang tulus akan mengajarkanmu banyak hal tentang hidup dan diri sendiri 📚",
+            "Hubungan yang kuat dibangun atas dasar kepercayaan dan saling menghargai 🤝",
+            "Cinta sejati itu tidak selalu sempurna, tetapi selalu tumbuh dan berkembang seiring waktu 🌿",
+            "Kamu akan menemukan seseorang yang mencintaimu dengan cara yang tak pernah kamu bayangkan sebelumnya 💫",
+            "Keberanian untuk mencintai adalah langkah pertama menuju kebahagiaan sejati 💪",
+            "Kehangatan dan kenyamanan dalam hubungan akan menjadi kekuatanmu dalam menghadapi dunia 🌍",
+            "Cinta sejati akan datang pada saat yang tak terduga, seseorang yang akan membuat hidupmu lebih berarti 💫",
+            "Kamu akan menemukan pasangan hidup yang saling melengkapi dalam segala hal, saling mendukung di setiap langkah 👫",
+            "Jangan khawatir, cinta sejatimu sedang dalam perjalanan menuju hidupmu, bersabarlah dan percayalah 💖",
+            "Kamu akan menemukan seseorang yang membuatmu merasa aman dan dicintai tanpa syarat 🌟",
+            "Cinta sejati bukan hanya tentang perasaan, tapi juga tentang keberanian untuk tumbuh bersama 💕",
+            "Keajaiban cinta akan datang saat kamu paling tidak menyangka, percayalah pada kekuatan hatimu ✨",
+            "Rahasia hubungan yang bahagia adalah memberi tanpa mengharapkan balasan, dan itu akan kembali padamu dengan indah 🌹",
+            "Kunci kebahagiaan cinta adalah menjaga komunikasi yang jujur dan terbuka antara satu sama lain 🗝️",
+            "Cinta sejati selalu menemukan cara untuk bertahan, meski ada banyak rintangan yang datang di jalanmu 💪",
+            "Rahasia kebahagiaan adalah mencintai dirimu sendiri terlebih dahulu, agar bisa mencintai orang lain dengan tulus 💖"
+        ];
+
+        let history = [];
+        let lastFortuneDate = localStorage.getItem('lastFortuneDate');
+        let canUseFortune = true;
+
+        // Cek batasan penggunaan sehari sekali
+        function checkDailyLimit() {
+            const today = new Date().toDateString();
+            if (lastFortuneDate === today) {
+                canUseFortune = false;
+                document.getElementById('fortuneButton').disabled = true;
+                document.getElementById('dailyLimitMessage').style.display = 'block';
+            }
+        }
+
+        // Fungsi utama untuk meramal
+        function tellFortune() {
+            if (!canUseFortune) return;
+
+            const question = document.getElementById('questionSelect').value;
+            const fortune = getRandomFortune(question);
+            const timestamp = new Date().toLocaleString();
+
+            // Simpan tanggal penggunaan terakhir
+            const today = new Date().toDateString();
+            localStorage.setItem('lastFortuneDate', today);
+            canUseFortune = false;
+            document.getElementById('fortuneButton').disabled = true;
+            document.getElementById('dailyLimitMessage').style.display = 'block';
+
+            // Animasi
+            const ball = document.querySelector('.crystal-ball');
+            ball.style.animation = 'glow 0.5s 3';
+
+            // Tampilkan ramalan
+            setTimeout(() => {
+                document.getElementById('fortuneDisplay').innerHTML = `
+                    <div class="fortune-reveal">
+                        <i class="fas fa-crystal-ball"></i>
+                        <h5>🔮 Ramalan Cinta 🔮</h5>
+                        <p>${fortune}</p>
+                    </div>
+                `;
+
+                // Tambahkan ke riwayat
+                history.unshift({ fortune, timestamp });
+                updateHistory();
+                createStars();
+            }, 1000);
+        }
+
+        // Fungsi mendapatkan ramalan acak
+        function getRandomFortune(question) {
+            const filteredFortunes = loveFortunes.filter(f => {
+                if (question === 'future') return true;
+                if (question === 'soulmate') return f.includes('orang yang tepat') || f.includes('cinta sejatimu');
+                if (question === 'secret') return f.includes('kunci') || f.includes('rahasia');
+            });
+
+            return filteredFortunes[Math.floor(Math.random() * filteredFortunes.length)];
+        }
+
+        // Fungsi update riwayat
+        function updateHistory() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = history.slice(0, 5).map((item, index) => `
+                <div class="list-group-item">
+                    <small>${item.timestamp}</small>
+                    <div>${item.fortune}</div>
+                </div>
+            `).join('');
+        }
+
+        // Fungsi membuat efek bintang
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            starsContainer.innerHTML = '';
+
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 1.5 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Inisialisasi awal
+        checkDailyLimit();
+        createStars();
+
+        function updateDateTime() {
+            const now = new Date();
+            const todayDate = now.toLocaleDateString('id-ID');
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+            document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const hours = now.getHours();
+            let greeting = '';
+            let nicknames = ['Sayaaang', 'Cintakuuu', 'Maniskuuu', 'Kekasihkuuu', 'Cantikuuu', 'Duniakuuuu', 'Bidadarikuu', 'MyBaby', 'MyLove', 'MyDear', 'MyHeart',];
+            let randomNickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+
+            if (hours < 12) {
+                greeting = `Selamat Pagii dan Selamat Bermain ${randomNickname}!!`;
+            } else if (hours < 15) {
+                greeting = `Selamat Siaang dan Selamat Bermain ${randomNickname}!!`;
+            } else if (hours < 18) {
+                greeting = `Selamat Soree dan Selamat Bermain ${randomNickname}!!`;
+            } else {
+                greeting = `Selamat Malaam dan Selamat Bermain ${randomNickname}!!`;
+            }
+            document.getElementById('greeting').innerText = greeting;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+
+</html>
